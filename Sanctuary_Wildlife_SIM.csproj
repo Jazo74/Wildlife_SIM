@@ -5,4 +5,9 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="animals\" />
+    <Folder Include="basic_resources\" />
+    <Folder Include="habitats\" />
+  </ItemGroup>
 </Project>
