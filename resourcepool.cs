@@ -5,32 +5,13 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
 {
     public class ResourcePool
     {
+        // Properties
         public List<Habitat> HabitatList = new List<Habitat>();
-  
-
-        public ResourcePool(String State)
-        {           
-            if (State == "new")
-            {
-                Habitat Rainforest = new Habitat("Rainforest");
-                HabitatList.Add(Rainforest);
-                Habitat TemperateForest = new Habitat("Temperate Forest");
-                HabitatList.Add(TemperateForest);
-                Habitat Sea = new Habitat("Sea");
-                HabitatList.Add(Sea);
-                Habitat Arctic = new Habitat("Arctic");
-                HabitatList.Add(Arctic);
-                Habitat Savannah = new Habitat("Savannah");
-                HabitatList.Add(Savannah);
-            }
-        }
-        
         List<HeatCollector> HeatGenerators { get; set; }
         List<SolarPanel> EnergyGenerators { get; set; }
         List<OxigenGenerator> OxigenGenerators { get; set; }
         List<FoodReplicator> FoodGenerators { get; set; }
         List<WaterFilter> WaterGenerators { get; set; }
-
         int HeatReserve { get; set; }
         int EnergyReserve { get; set; }
         int OxigenReserve { get; set; }
@@ -49,14 +30,61 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
         int SumFoodLoad { get; set; }
         int SumWaterLoad { get; set; }
 
+        // Constructor
+        public ResourcePool(String State)
+        {           
+            if (State == "new")
+            {
+                HabitatList.Add(new Habitat("Rainforest"));
+                HabitatList.Add(new Habitat("Temperate Forest"));
+                HabitatList.Add(new Habitat("Sea"));
+                HabitatList.Add(new Habitat("Arctic"));
+                HabitatList.Add(new Habitat("Savannah"));
+            }
+        }
+
         public void GatherInformation()
         {
 
         }
-        public void CreatingNewHabitat(String HabitatName)
+        public void CreatingAHabitat(String habitatName)
         {
-            Habitat NeuHabitat = new Habitat(HabitatName);
-            HabitatList.Add(NeuHabitat);
+            Habitat NewHabitat  = new Habitat(habitatName);
+            HabitatList.Add(NewHabitat);
         }
+
+        public void AddNewAnimal(String SpeciesName, String Type, String Environment)
+        {
+            foreach (Habitat member in HabitatList)
+            {
+                if (member.HabitatName == Environment)
+                {
+                    member.AddNewAnimal(SpeciesName, Type, Environment);
+                }
+            }
+        }
+
+        public void RelocateAnimal(String OwnName, String Environment)
+        {
+            foreach (Habitat member in HabitatList)
+            {
+                if (member.HabitatName == Environment)
+                {
+                    member.RelocateAnimal(OwnName);
+                }
+            }
+        }
+
+        /*public Habitat FindHabitatByName(string habitatName)
+       {
+           foreach (Habitat habitat in HabitatList)
+           {
+               if (habitat.HabitatName == habitatName)
+               {
+                   return habitat;
+               }
+           }
+           return null;
+       }*/
     }
 }

@@ -21,10 +21,6 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
             this.IdealEnvironment = IdealEnvironment;
         }
         // Methods
-        public override string ToString()
-        {
-            return OwnName + " " + SpeciesName + " " + Type + " " + IdealEnvironment;
-        }
         public override void Sickness()
         {
             SomethingHappens = rnd.Next(1,200);

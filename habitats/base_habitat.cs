@@ -39,10 +39,9 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
         {
 
         }
-        public void NewAnimal(String SpeciesName,String Type, String Environment)
+        public void AddNewAnimal(String SpeciesName, String Type, String Environment)
         {
-            Animal ThisAnimal = new Animal(SpeciesName, Type, Environment);
-            AnimalList.Add(ThisAnimal);
+            AnimalList.Add(new Animal(SpeciesName, Type, Environment));
         }
         public void GatherAllReq()
         {
