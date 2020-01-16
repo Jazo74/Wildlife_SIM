@@ -4,6 +4,7 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
     public abstract class Species
     {
         // Base Properties
+        public String OwnName { get; set; }
         public Random rnd = new Random();
         public int SomethingHappens = 0;
         public String SpeciesName { get; set; } // Tiger, Eagle

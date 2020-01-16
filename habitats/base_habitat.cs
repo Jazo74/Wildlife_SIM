@@ -1,6 +1,8 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using System.Timers;
+
 
 namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
 {
@@ -14,8 +16,9 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
         public int SumReqWater { get; private set; }
         public int SumReqFood { get; private set; }
         public int SumReqEnergy { get; private set; }
-        private List<Animal> AnimalList = new List<Animal>();
-
+        public List<Animal> AnimalList = new List<Animal>();
+        //System.Timers.Timer(5000);
+       
         //Constructor
         public Habitat(String HabitatName)
         {
@@ -43,6 +46,12 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
         }
         public void GatherAllReq()
         {
+            Size = 0;
+            SumReqEnergy = 0;
+            SumReqFood = 0;
+            SumReqHeat = 0;
+            SumReqOxigen = 0;
+            SumReqWater = 0;
             foreach (Animal member in AnimalList)
             {
                 Size += member.ReqSpace;
@@ -51,6 +60,17 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
                 SumReqFood += member.ReqFoodUnit;
                 SumReqWater += member.ReqWaterUnit;
                 SumReqEnergy += member.ReqEnergyUnit;
+            }
+        }
+        public void RelocateAnimal(String OwnName)
+        {
+            for (int index = 0; index < AnimalList.Count; index ++)
+            {
+                if (AnimalList[index].OwnName == OwnName)
+                {
+                    AnimalList.RemoveAt(index);
+                    // How to destroy this removed object?
+                }
             }
         }
     }

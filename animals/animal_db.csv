@@ -1,17 +1,17 @@
 ﻿Tiger;Carnivore;Rainforest
-Lion;Carnivore;Desert Plain
-Antilop;Herbivore;Desert Plain
+Lion;Carnivore;Savannah
+Antilop;Herbivore;Savannah
 Panda;Herbivore;Rainforest
 Chimp;Omnivore;Rainforest
-Zebra;Herbivore;Desert Plain
+Zebra;Herbivore;Savannah
 Wolf;Carnivore;Temperate Forest
-Beaver;Herbivore;Temperate_Forest
+Beaver;Herbivore;Temperate Forest
 Polar bear;Carnivore;Arctic
 Seal;Carnivore;Arctic
 Penguin;Carnivore;Arctic
-Dolphin;Carnivore;Salt Sea
-Turtle;Herbivore;Salt Sea
-Sirály;Herbivore;Salt Sea
+Dolphin;Carnivore;Sea
+Turtle;Herbivore;Sea
+Sirály;Herbivore;Sea
 Bald Eagle;Carnivore;Temperate Forest
 
 

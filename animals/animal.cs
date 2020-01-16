@@ -3,9 +3,12 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
 {
     public class Animal : Species
     {
+        static int ID { get; set;} 
         // Constructor
         public Animal(String SpeciesName, String Type, String IdealEnvironment)
         {
+            ID += 1;
+            OwnName = ID.ToString();
             ReqSpace = 1000;
             ReqHeatUnit = 2;
             ReqOxigenUnit = 2;
@@ -18,6 +21,10 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
             this.IdealEnvironment = IdealEnvironment;
         }
         // Methods
+        public override string ToString()
+        {
+            return OwnName + " " + SpeciesName + " " + Type + " " + IdealEnvironment;
+        }
         public override void Sickness()
         {
             SomethingHappens = rnd.Next(1,200);
