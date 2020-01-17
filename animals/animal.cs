@@ -10,11 +10,11 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
             ID += 1;
             OwnName = ID.ToString();
             ReqSpace = 1000;
-            ReqHeatUnit = 2;
-            ReqOxigenUnit = 2;
+            ReqHeatUnit = 1;
+            ReqOxigenUnit = 3;
             ReqFoodUnit = 2;
             ReqWaterUnit = 2;
-            ReqEnergyUnit = 2;
+            ReqEnergyUnit = 1;
             MaximumAge = 5000;
             this.SpeciesName = SpeciesName;
             this.Type = Type;

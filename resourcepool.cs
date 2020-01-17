@@ -8,13 +8,11 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
         // Properties
 
         public List<Habitat> HabitatList = new List<Habitat>();
-        //public List<ResourceGenerator> ResourceList = new List<ResourceGenerator>();
-        
-        List<HeatCollector> HeatCollectors { get; set; }
-        List<SolarPanel> SolarPanels { get; set; }
-        List<OxigenGenerator> OxigenGenerators { get; set; }
-        List<FoodReplicator> FoodReplicators { get; set; }
-        List<WaterFilter> WaterFilters { get; set; }
+        List<HeatCollector> HeatCollectors = new List<HeatCollector>();
+        List<SolarPanel> SolarPanels = new List<SolarPanel>();
+        List<OxigenGenerator> OxigenGenerators = new List<OxigenGenerator>();
+        List<FoodReplicator> FoodReplicators = new List<FoodReplicator>();
+        List<WaterFilter> WaterFilters = new List<WaterFilter>();
 
         int AllHeatReq { get; set; }
         int AllEnergyReq { get; set; }
@@ -38,6 +36,11 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
                 HabitatList.Add(new Habitat("Sea"));
                 HabitatList.Add(new Habitat("Arctic"));
                 HabitatList.Add(new Habitat("Savannah"));
+                HeatCollectors.Add(new HeatCollector());
+                SolarPanels.Add(new SolarPanel());
+                FoodReplicators.Add(new FoodReplicator());
+                OxigenGenerators.Add(new OxigenGenerator());
+                WaterFilters.Add(new WaterFilter());
             }
         }
         // Methods
@@ -99,22 +102,27 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
             while (AllHeatReq > AllHeatCapacity)
             {
                 HeatCollectors.Add(new HeatCollector());
+                SumAllCapacity();
             }
             while (AllEnergyReq > AllEnergyCapacity)
             {
                 SolarPanels.Add(new SolarPanel());
+                SumAllCapacity();
             }
             while (AllFoodReq > AllFoodCapacity)
             {
                 FoodReplicators.Add(new FoodReplicator());
+                SumAllCapacity();
             }
             while (AllOxigenReq > AllOxigenCapacity)
             {
                 OxigenGenerators.Add(new OxigenGenerator());
+                SumAllCapacity();
             }
             while (AllWaterReq > AllWaterCapacity)
             {
                 WaterFilters.Add(new WaterFilter());
+                SumAllCapacity();
             }
         }
         public void SetLoad()
@@ -163,6 +171,13 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
                 {
                     member.RelocateAnimal(OwnName);
                 }
+            }
+        }
+        public void BirthDay()
+        {
+            foreach (Habitat x in HabitatList)
+            {
+                x.Birth();
             }
         }
 

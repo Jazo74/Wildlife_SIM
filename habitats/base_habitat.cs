@@ -1,14 +1,13 @@
 ﻿
 using System;
 using System.Collections.Generic;
-using System.Timers;
-
 
 namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
 {
     public class Habitat
     {
         // Base Properties
+        static Random rnd = new Random();
         public String HabitatName { get; set; }
         public int Size { get; private set; }
         public int SumReqHeat { get; private set; }
@@ -17,9 +16,10 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
         public int SumReqFood { get; private set; }
         public int SumReqEnergy { get; private set; }
         public List<Animal> AnimalList = new List<Animal>();
-        //System.Timers.Timer(5000);
-       
+        public Dictionary<string, int> AnimalDict = new Dictionary<string, int>();
+        
         //Constructor
+
         public Habitat(String HabitatName)
         {
             this.HabitatName = HabitatName;
@@ -31,18 +31,7 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
             Size = 0;
         }
         // Methods
-        public void StartHabitat()
-        {
-
-        }
-        public void HibernateHabitat()
-        {
-
-        }
-        public void AddNewAnimal(String SpeciesName, String Type, String Environment)
-        {
-            AnimalList.Add(new Animal(SpeciesName, Type, Environment));
-        }
+        
         public void GatherAllReq()
         {
             Size = 0;
@@ -61,6 +50,25 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
                 SumReqEnergy += member.ReqEnergyUnit;
             }
         }
+        public void SumAnimals()
+        {
+            AnimalDict.Clear();
+            foreach (Animal member in AnimalList)
+            {
+                if (AnimalDict.ContainsKey(HabitatName + " - " + member.SpeciesName) == false)
+                {
+                    AnimalDict.Add(HabitatName + " - " + member.SpeciesName, 1);
+                }
+                else
+                {
+                    AnimalDict[HabitatName + " - " + member.SpeciesName] += 1; 
+                }
+            }
+        }
+        public void AddNewAnimal(String SpeciesName, String Type, String Environment)
+        {
+            AnimalList.Add(new Animal(SpeciesName, Type, Environment));
+        }
         public void RelocateAnimal(String OwnName)
         {
             for (int index = 0; index < AnimalList.Count; index ++)
@@ -71,6 +79,19 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
                     // How to destroy this removed object?
                 }
             }
+        }
+        public void Birth()
+        {
+            //int birthTime = rnd.Next(0,100);
+            if (rnd.Next(0,100) > 90)
+            {
+                int index = rnd.Next(0, AnimalList.Count);
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("A " + AnimalList[index].SpeciesName + " baby has born!");
+                Console.ForegroundColor = ConsoleColor.White;
+                AnimalList.Add(AnimalList[index]);
+            }
+
         }
     }
 }

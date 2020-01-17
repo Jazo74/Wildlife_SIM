@@ -1,61 +1,91 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 
 
 namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
 {
     class Program
-
     {
-        // Habitat Rainforest = new Habitat("Rainforest");
-        public ResourcePool ArkOne = new ResourcePool("new");
-        
+        // Fields
+            ResourcePool arkOne = new ResourcePool("new");
+            static Program sanctuary = new Program();
+        // Methods
         static void Main(string[] args)
         {
-            ResourcePool ArkOne = new ResourcePool("new");
-
             Console.Clear();
-            test();
+            sanctuary.Repeating();
+            
         }
-
-        public static void test()
-        {
-            Repeating();   
-        }
+        
         void TestAnimals()
         {
-            foreach (Habitat habs in ArkOne.HabitatList)
+            foreach (Habitat habs in arkOne.HabitatList)
             {
-                foreach (Animal member in habs.AnimalList)
+                habs.SumAnimals();
+                foreach (KeyValuePair<string, int> x in habs.AnimalDict)
                 {
-                    Console.Write(member.OwnName + " / ");
-                    Console.WriteLine(member.SpeciesName);
-                }
+                    Console.Write(x.Key + " - ");
+                    Console.WriteLine(x.Value);
+                } 
             }
+        }
+        void Population()
+        {
+            foreach (Habitat x in arkOne.HabitatList) { }
         }
         void TestSumReqRes()
         {
-            Console.WriteLine("Req Resources.    Energy Heat Food Water Oxigen");
-            Console.Write(ArkOne.HabitatName.ToString().PadRight(18));
-            Console.Write(member.SumReqEnergy.ToString().PadRight(7));
-            Console.Write(member.SumReqHeat.ToString().PadRight(5));
-            Console.Write(member.SumReqFood.ToString().PadRight(5));
-            Console.Write(member.SumReqWater.ToString().PadRight(6));
-            Console.WriteLine(member.SumReqOxigen.ToString().PadRight(6));
+            //Console.WriteLine("---------------------------------------------");
+            Console.WriteLine("              Required Resources");
+            Console.WriteLine("Zone              Energy Heat Food Water Oxigen");
             
+            foreach (Habitat member in arkOne.HabitatList)
+            {
+                Console.Write(member.HabitatName.ToString().PadRight(18));
+                Console.Write(member.SumReqEnergy.ToString().PadRight(7));
+                Console.Write(member.SumReqHeat.ToString().PadRight(5));
+                Console.Write(member.SumReqFood.ToString().PadRight(5));
+                Console.Write(member.SumReqWater.ToString().PadRight(6));
+                Console.WriteLine(member.SumReqOxigen.ToString().PadRight(6));
+            }
         }
-        void Repeating()
+        void TestPopulate()
         {
             for (int i = 0; i < 10; i++)
             {
-                ArkOne.AddNewAnimal("Tiger", "Carnivore", "Rainforest");
-                ArkOne.AddNewAnimal("Tiger", "Carnivore", "Rainforest");
-                ArkOne.AddNewAnimal("Chimp", "Carnivore", "Rainforest");
-                ArkOne.AddNewAnimal("Dolphin", "Carnivore", "Sea");
-                //TestAnimals();
-                TestSumReqRes();
-                Thread.Sleep(2000);
+                arkOne.AddNewAnimal("Tiger", "Carnivore", "Rainforest");
+                arkOne.AddNewAnimal("Panda", "Herbivore", "Rainforest");
+                arkOne.AddNewAnimal("Chimp", "Omnivore", "Rainforest");
+                arkOne.AddNewAnimal("Zebra", "Herbivore", "Savannah");
+                arkOne.AddNewAnimal("Lion", "Carnivore", "Savannah");
+                arkOne.AddNewAnimal("Antilop", "Herbivore", "Savannah");
+                arkOne.AddNewAnimal("Wolf", "Carnivore", "Temperate Forest");
+                arkOne.AddNewAnimal("Beaver", "Herbivore", "Temperate Forest");
+                arkOne.AddNewAnimal("Bald Eagle", "Carnivore", "Temperate Forest");
+                arkOne.AddNewAnimal("Polar bear", "Carnivore", "Arctic");
+                arkOne.AddNewAnimal("Seal", "Carnivore", "Arctic");
+                arkOne.AddNewAnimal("Penguin", "Carnivore", "Arctic");
+                arkOne.AddNewAnimal("Dolphin", "Carnivore", "Sea");
+                arkOne.AddNewAnimal("Turtle", "Herbivore", "Sea");
+                arkOne.AddNewAnimal("Seagull", "Herbivore", "Sea");
+            }
+        }
+        void Repeating()
+        {
+            sanctuary.TestPopulate();
+            while (true)
+            { 
+                arkOne.ResourceCycle();
+                sanctuary.TestSumReqRes();
+                Console.WriteLine("---------------------------------------------");
+                Console.WriteLine("           The current population:");
+                sanctuary.TestAnimals();
+                Console.WriteLine();
+                arkOne.BirthDay();
+                Thread.Sleep(1000);
                 Console.Clear();
+                
             }
         }
         
