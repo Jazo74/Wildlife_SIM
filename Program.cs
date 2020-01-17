@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Threading.Tasks;
+using System.Threading;
 
 
 namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
@@ -7,20 +7,22 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
     class Program
 
     {
-        // static Habitat Rainforest = new Habitat("Rainforest");
-        static ResourcePool ArkOne = new ResourcePool("new");
+        // Habitat Rainforest = new Habitat("Rainforest");
+        public ResourcePool ArkOne = new ResourcePool("new");
         
         static void Main(string[] args)
         {
+            ResourcePool ArkOne = new ResourcePool("new");
+
+            Console.Clear();
             test();
         }
 
         public static void test()
         {
-            Console.Clear();
             Repeating();   
         }
-        static void TestAnimals()
+        void TestAnimals()
         {
             foreach (Habitat habs in ArkOne.HabitatList)
             {
@@ -31,33 +33,28 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
                 }
             }
         }
-        static void TestSumReqRes()
+        void TestSumReqRes()
         {
             Console.WriteLine("Req Resources.    Energy Heat Food Water Oxigen");
+            Console.Write(ArkOne.HabitatName.ToString().PadRight(18));
+            Console.Write(member.SumReqEnergy.ToString().PadRight(7));
+            Console.Write(member.SumReqHeat.ToString().PadRight(5));
+            Console.Write(member.SumReqFood.ToString().PadRight(5));
+            Console.Write(member.SumReqWater.ToString().PadRight(6));
+            Console.WriteLine(member.SumReqOxigen.ToString().PadRight(6));
             
-           
-            foreach (Habitat member in ArkOne.HabitatList)
-            {
-                member.GatherAllReq();
-                Console.Write(member.HabitatName.ToString().PadRight(18));
-                Console.Write(member.SumReqEnergy.ToString().PadRight(7));
-                Console.Write(member.SumReqHeat.ToString().PadRight(5));
-                Console.Write(member.SumReqFood.ToString().PadRight(5));
-                Console.Write(member.SumReqWater.ToString().PadRight(6));
-                Console.WriteLine(member.SumReqOxigen.ToString().PadRight(6));
-            }
         }
-        static void Repeating()
+        void Repeating()
         {
             for (int i = 0; i < 10; i++)
             {
-                System.Threading.Thread.Sleep(2000);
                 ArkOne.AddNewAnimal("Tiger", "Carnivore", "Rainforest");
                 ArkOne.AddNewAnimal("Tiger", "Carnivore", "Rainforest");
                 ArkOne.AddNewAnimal("Chimp", "Carnivore", "Rainforest");
                 ArkOne.AddNewAnimal("Dolphin", "Carnivore", "Sea");
                 //TestAnimals();
                 TestSumReqRes();
+                Thread.Sleep(2000);
                 Console.Clear();
             }
         }

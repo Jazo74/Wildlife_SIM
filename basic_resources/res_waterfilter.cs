@@ -10,16 +10,12 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
             State = "Running";
             Capacity = 100;
             Load = 0;
-            GeneratePerCycle = 1;
             CriticalAccident = false;
             Accident = false;
             MaintenanceCounter = Capacity * 5;
         }
 
-        public override int Generate()
-        {
-            return GeneratePerCycle * Load;
-        }
+        
 
         public override void Maintenance()
         {
