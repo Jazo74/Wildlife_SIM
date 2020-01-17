@@ -20,14 +20,22 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
         
         void TestAnimals()
         {
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("--------------------------------------------------------");
+            Console.WriteLine("              The current population:");
+            Console.WriteLine("--------------------------------------------------------");
+            Console.ForegroundColor = ConsoleColor.White;
+
             foreach (Habitat habs in arkOne.HabitatList)
             {
                 habs.SumAnimals();
+                Console.Write(habs.HabitatName.PadRight(17) + ": ");
                 foreach (KeyValuePair<string, int> x in habs.AnimalDict)
                 {
-                    Console.Write(x.Key + " - ");
-                    Console.WriteLine(x.Value);
-                } 
+                    Console.Write(x.Key + "(");
+                    Console.Write(x.Value + ") ");
+                }
+                Console.WriteLine();
             }
         }
         void Population()
@@ -36,18 +44,22 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
         }
         void TestSumReqRes()
         {
+
             //Console.WriteLine("---------------------------------------------");
-            Console.WriteLine("              Required Resources");
-            Console.WriteLine("Zone              Energy Heat Food Water Oxigen");
-            
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("--------------------------------------------------------");
+            Console.WriteLine("                 Required Resources");
+            Console.WriteLine("--------------------------------------------------------");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine("Zone               Energy   Heat   Food   Water   Oxigen");
             foreach (Habitat member in arkOne.HabitatList)
             {
-                Console.Write(member.HabitatName.ToString().PadRight(18));
-                Console.Write(member.SumReqEnergy.ToString().PadRight(7));
-                Console.Write(member.SumReqHeat.ToString().PadRight(5));
-                Console.Write(member.SumReqFood.ToString().PadRight(5));
-                Console.Write(member.SumReqWater.ToString().PadRight(6));
-                Console.WriteLine(member.SumReqOxigen.ToString().PadRight(6));
+                Console.Write(member.HabitatName.ToString().PadRight(19));
+                Console.Write(member.SumReqEnergy.ToString().PadRight(9));
+                Console.Write(member.SumReqHeat.ToString().PadRight(7));
+                Console.Write(member.SumReqFood.ToString().PadRight(7));
+                Console.Write(member.SumReqWater.ToString().PadRight(8));
+                Console.WriteLine(member.SumReqOxigen.ToString().PadRight(8));
             }
         }
         void TestPopulate()
@@ -78,17 +90,12 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
             { 
                 arkOne.ResourceCycle();
                 sanctuary.TestSumReqRes();
-                Console.WriteLine("---------------------------------------------");
-                Console.WriteLine("           The current population:");
                 sanctuary.TestAnimals();
                 Console.WriteLine();
                 arkOne.BirthDay();
                 Thread.Sleep(1000);
-                Console.Clear();
-                
+                Console.Clear();     
             }
         }
-        
-
     }
 }

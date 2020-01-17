@@ -55,13 +55,13 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
             AnimalDict.Clear();
             foreach (Animal member in AnimalList)
             {
-                if (AnimalDict.ContainsKey(HabitatName + " - " + member.SpeciesName) == false)
+                if (AnimalDict.ContainsKey(member.SpeciesName) == false)
                 {
-                    AnimalDict.Add(HabitatName + " - " + member.SpeciesName, 1);
+                    AnimalDict.Add(member.SpeciesName, 1);
                 }
                 else
                 {
-                    AnimalDict[HabitatName + " - " + member.SpeciesName] += 1; 
+                    AnimalDict[member.SpeciesName] += 1; 
                 }
             }
         }
