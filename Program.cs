@@ -29,11 +29,13 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
             foreach (Habitat habs in arkOne.HabitatList)
             {
                 habs.SumAnimals();
-                Console.Write(habs.HabitatName.PadRight(17) + ": ");
+                Console.Write(habs.HabitatName.PadRight(18));
                 foreach (KeyValuePair<string, int> x in habs.AnimalDict)
                 {
-                    Console.Write(x.Key + "(");
-                    Console.Write(x.Value + ") ");
+                    string tempString = (x.Key + "-" + x.Value).PadRight(15);
+                    Console.Write(tempString);
+                    //Console.Write(x.Key + "(");
+                    //Console.Write(x.Value + ") ");
                 }
                 Console.WriteLine();
             }
@@ -93,7 +95,9 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
                 sanctuary.TestAnimals();
                 Console.WriteLine();
                 arkOne.BirthDay();
-                Thread.Sleep(1000);
+                //arkOne.Dying();
+                arkOne.NaturalDeath();
+                Thread.Sleep(10);
                 Console.Clear();     
             }
         }

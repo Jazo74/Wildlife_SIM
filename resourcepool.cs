@@ -180,6 +180,20 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
                 x.Birth();
             }
         }
+        public void Dying()
+        {
+            foreach (Habitat x in HabitatList)
+            {
+                x.Dying();
+            }
+        }
+        public void NaturalDeath()
+        {
+            foreach (Habitat x in HabitatList)
+            {
+                x.NaturalDeath();
+            }
+        }
 
         /*public Habitat FindHabitatByName(string habitatName)
        {

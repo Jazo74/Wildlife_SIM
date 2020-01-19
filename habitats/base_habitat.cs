@@ -82,7 +82,6 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
         }
         public void Birth()
         {
-            //int birthTime = rnd.Next(0,100);
             if (rnd.Next(0,100) > 90)
             {
                 int index = rnd.Next(0, AnimalList.Count);
@@ -92,6 +91,31 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
                 AnimalList.Add(AnimalList[index]);
             }
 
+        }
+        public void Dying()
+        {
+            if (rnd.Next(0, 100) > 98)
+            {
+                int index = rnd.Next(0, AnimalList.Count);
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("A " + AnimalList[index].SpeciesName + " has died!");
+                Console.ForegroundColor = ConsoleColor.White;
+                AnimalList.RemoveAt(index);
+            }
+        }
+        public void NaturalDeath()
+        {
+            for (int x = AnimalList.Count - 1; x >= 0; x--)
+            {
+                AnimalList[x].MaximumAge -= 1;
+                if (AnimalList[x].MaximumAge < 1)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("A " + AnimalList[x].SpeciesName + " has died!");
+                    Console.ForegroundColor = ConsoleColor.White;
+                    AnimalList.RemoveAt(x);
+                }
+            }
         }
     }
 }
