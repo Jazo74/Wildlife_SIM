@@ -90,7 +90,6 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
                 Console.ForegroundColor = ConsoleColor.White;
                 AnimalList.Add(AnimalList[index]);
             }
-
         }
         public void Dying()
         {

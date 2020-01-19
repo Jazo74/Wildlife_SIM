@@ -95,9 +95,9 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
                 sanctuary.TestAnimals();
                 Console.WriteLine();
                 arkOne.BirthDay();
-                //arkOne.Dying();
-                arkOne.NaturalDeath();
-                Thread.Sleep(10);
+                arkOne.Dying();
+                //arkOne.NaturalDeath();
+                Thread.Sleep(1000);
                 Console.Clear();     
             }
         }

@@ -15,7 +15,7 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
             ReqFoodUnit = 2;
             ReqWaterUnit = 2;
             ReqEnergyUnit = 1;
-            MaximumAge = rnd.Next(5000,7000);
+            //MaximumAge = rnd.Next(20000, 50000);
             this.SpeciesName = SpeciesName;
             this.Type = Type;
             this.IdealEnvironment = IdealEnvironment;
