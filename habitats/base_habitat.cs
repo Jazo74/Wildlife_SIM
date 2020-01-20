@@ -19,7 +19,6 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
         public Dictionary<string, int> AnimalDict = new Dictionary<string, int>();
         
         //Constructor
-
         public Habitat(String HabitatName)
         {
             this.HabitatName = HabitatName;
@@ -30,8 +29,8 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
             SumReqEnergy = 0;
             Size = 0;
         }
+
         // Methods
-        
         public void GatherAllReq()
         {
             Size = 0;

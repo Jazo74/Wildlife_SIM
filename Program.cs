@@ -99,9 +99,9 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
             while (true)
             { 
                 arkOne.ResourceCycle();
-                sanctuary.TestSumReqRes();
-                sanctuary.TestResGenerators();
                 sanctuary.TestAnimals();
+                sanctuary.TestSumReqRes();
+                sanctuary.TestResGenerators(); 
                 Console.WriteLine();
                 arkOne.BirthDay();
                 arkOne.Dying();

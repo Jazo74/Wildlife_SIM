@@ -8,7 +8,7 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
         public WaterFilter()
         {
             State = "Running";
-            Capacity = 500;
+            Capacity = 400;
             Load = 0;
             CriticalAccident = false;
             Accident = false;

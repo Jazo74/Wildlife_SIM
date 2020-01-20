@@ -8,7 +8,7 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
         public FoodReplicator()
         {
             State = "Running";
-            Capacity = 500;
+            Capacity = 600;
             Load = 0;
             CriticalAccident = false;
             Accident = false;

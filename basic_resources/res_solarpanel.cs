@@ -8,7 +8,7 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
         public SolarPanel()
         {
             State = "Running";
-            Capacity = 500;
+            Capacity = 450;
             Load = 0;
             CriticalAccident = false;
             Accident = false;
