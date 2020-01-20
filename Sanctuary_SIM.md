@@ -1,20 +1,15 @@
 ﻿# Noah's Ark at Moon / Sanctuary_SIM
-This program is a wildlife park simulation. It contains living spaces, resources for the animals and humans
 
-Resources: Heat, Energy, Oxigen, Light, Food, Water
+This program is a "wildlife park" simulation.
 
-Water subtype: sweet, salted
+This particular wildlife park is on the surface of the Moon.
+It contains living habitat zones, and facilities for the animals needs.
 
+Resources: Heat, Energy, Oxigen, Food, Water
 
-The main task is put all the animals to a best living space and the support them with the best food.
+This station is autonomous, but semi-manual control is possible.
 
-base abstract animal
- eating
-The animals require fitting 
-- space x m2
-- environments: desert, plain, tropical forest, temperate forest, boreal forest mountain, arctic desert, river, sweetwater lake, saltwater lake, saltwater sea
-- temperature, x Celsius degree
+The station starts with couple of animal, and if the controller program works properly,
+their numbers will grow steadily.
 
-- food, grass, fruit, vegetabel, artificial meat
-
-base abstract living space
+The new animals automatically put in their ideal living habitat.
