@@ -17,7 +17,7 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
         public int ReqFoodUnit { get; set; }
         public int ReqWaterUnit { get; set; }
         public int ReqEnergyUnit { get; set; }
-        public int MaximumAge { get; set; }
+        //public int MaximumAge { get; set; }
         public bool Dead { get; set; } = false;
         
         // Base Methods

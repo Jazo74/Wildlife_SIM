@@ -2,13 +2,13 @@
 
 namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
 {
-    class OxigenGenerator : ResourceGenerator
+    public class OxigenGenerator : ResourceGenerator
     {
 
         public OxigenGenerator()
         {
             State = "Running";
-            Capacity = 100;
+            Capacity = 500;
             Load = 0;
             CriticalAccident = false;
             Accident = false;

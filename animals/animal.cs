@@ -30,7 +30,7 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
             }
             else if (SomethingHappens > 190 & SomethingHappens < 200)
             {
-                MaximumAge -= 100;
+                //MaximumAge -= 100;
             }
         }
     }

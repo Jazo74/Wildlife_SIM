@@ -40,14 +40,8 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
                 Console.WriteLine();
             }
         }
-        void Population()
-        {
-            foreach (Habitat x in arkOne.HabitatList) { }
-        }
         void TestSumReqRes()
         {
-
-            //Console.WriteLine("---------------------------------------------");
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine("--------------------------------------------------------");
             Console.WriteLine("                 Required Resources");
@@ -63,6 +57,20 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
                 Console.Write(member.SumReqWater.ToString().PadRight(8));
                 Console.WriteLine(member.SumReqOxigen.ToString().PadRight(8));
             }
+        }
+        void TestResGenerators()
+        {
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("--------------------------------------------------------");
+            Console.WriteLine("                 Running facilities");
+            Console.WriteLine("--------------------------------------------------------");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine("Heatcollectors".PadRight(19) + arkOne.HeatCollectors.Count + " block, Load: " + arkOne.HeatLoad + " %");
+            Console.WriteLine("Solarpanels".PadRight(19) + arkOne.SolarPanels.Count + " block, Load: " + arkOne.EnergyLoad + " %");
+            Console.WriteLine("Foodreplicators".PadRight(19) + arkOne.FoodReplicators.Count + " block, Load: " + arkOne.FoodLoad + " %");
+            Console.WriteLine("Oxigen generators".PadRight(19) + arkOne.OxigenGenerators.Count + " block, Load: " + arkOne.OxigenLoad + " %");
+            Console.WriteLine("Water filters: ".PadRight(19) + arkOne.WaterFilters.Count + " block, Load: " + arkOne.WaterLoad + " %");
+
         }
         void TestPopulate()
         {
@@ -92,12 +100,13 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
             { 
                 arkOne.ResourceCycle();
                 sanctuary.TestSumReqRes();
+                sanctuary.TestResGenerators();
                 sanctuary.TestAnimals();
                 Console.WriteLine();
                 arkOne.BirthDay();
                 arkOne.Dying();
                 //arkOne.NaturalDeath();
-                Thread.Sleep(1000);
+                Thread.Sleep(100);
                 Console.Clear();     
             }
         }

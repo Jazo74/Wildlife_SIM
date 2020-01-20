@@ -2,13 +2,13 @@
 
 namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
 {
-    class FoodReplicator : ResourceGenerator
+    public class FoodReplicator : ResourceGenerator
     {
 
         public FoodReplicator()
         {
             State = "Running";
-            Capacity = 100;
+            Capacity = 500;
             Load = 0;
             CriticalAccident = false;
             Accident = false;

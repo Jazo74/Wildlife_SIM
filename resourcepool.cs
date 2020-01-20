@@ -8,11 +8,11 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
         // Properties
 
         public List<Habitat> HabitatList = new List<Habitat>();
-        List<HeatCollector> HeatCollectors = new List<HeatCollector>();
-        List<SolarPanel> SolarPanels = new List<SolarPanel>();
-        List<OxigenGenerator> OxigenGenerators = new List<OxigenGenerator>();
-        List<FoodReplicator> FoodReplicators = new List<FoodReplicator>();
-        List<WaterFilter> WaterFilters = new List<WaterFilter>();
+        public List<HeatCollector> HeatCollectors = new List<HeatCollector>();
+        public List<SolarPanel> SolarPanels = new List<SolarPanel>();
+        public List<OxigenGenerator> OxigenGenerators = new List<OxigenGenerator>();
+        public List<FoodReplicator> FoodReplicators = new List<FoodReplicator>();
+        public List<WaterFilter> WaterFilters = new List<WaterFilter>();
 
         int AllHeatReq { get; set; }
         int AllEnergyReq { get; set; }
@@ -25,6 +25,12 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
         int AllOxigenCapacity { get; set; }
         int AllFoodCapacity { get; set; }
         int AllWaterCapacity { get; set; }
+
+        public decimal HeatLoad { get; set; }
+        public decimal EnergyLoad { get; set; }
+        public decimal OxigenLoad { get; set; }
+        public decimal FoodLoad { get; set; }
+        public decimal WaterLoad { get; set; }
 
         // Constructor
         public ResourcePool(String State)
@@ -127,26 +133,11 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
         }
         public void SetLoad()
         { 
-            foreach (HeatCollector member in HeatCollectors)
-            {
-                member.Load = AllHeatReq / AllHeatCapacity * (float)100;
-            }
-            foreach (SolarPanel member in SolarPanels)
-            {
-                member.Load = AllEnergyReq / AllEnergyCapacity * (float)100;
-            }
-            foreach (FoodReplicator member in FoodReplicators)
-            {
-                member.Load = AllFoodReq / AllFoodCapacity * (float)100;
-            }
-            foreach (OxigenGenerator member in OxigenGenerators)
-            {
-                member.Load = AllOxigenReq / AllOxigenCapacity * (float)100;
-            }
-            foreach (WaterFilter member in WaterFilters)
-            {
-                member.Load = AllWaterReq / AllWaterCapacity * (float)100;
-            }
+            HeatLoad = Math.Round(AllHeatReq / (decimal)AllHeatCapacity * 100,0);
+            EnergyLoad = Math.Round(AllEnergyReq / (decimal)AllEnergyCapacity * 100,0);
+            FoodLoad = Math.Round(AllFoodReq / (decimal)AllFoodCapacity * 100,0);
+            OxigenLoad = Math.Round(AllOxigenReq / (decimal)AllOxigenCapacity * 100,0);
+            WaterLoad = Math.Round(AllWaterReq / (decimal)AllWaterCapacity * 100,0);    
         }
         public void CreatingAHabitat(String habitatName)
         {
@@ -187,13 +178,13 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
                 x.Dying();
             }
         }
-        public void NaturalDeath()
+        /*public void NaturalDeath()
         {
             foreach (Habitat x in HabitatList)
             {
                 x.NaturalDeath();
             }
-        }
+        }*/
 
         /*public Habitat FindHabitatByName(string habitatName)
        {

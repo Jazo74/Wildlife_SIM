@@ -102,7 +102,7 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
                 AnimalList.RemoveAt(index);
             }
         }
-        public void NaturalDeath()
+        /*public void NaturalDeath()
         {
             for (int x = AnimalList.Count - 1; x >= 0; x--)
             {
@@ -115,6 +115,6 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
                     AnimalList.RemoveAt(x);
                 }
             }
-        }
+        }*/
     }
 }
