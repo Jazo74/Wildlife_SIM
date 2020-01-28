@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
 {
@@ -146,11 +147,14 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
         }
         public void AddNewAnimal(String SpeciesName, String Type, String Environment)
         {
-            foreach (Habitat member in HabitatList)
+            if (IsExistHabitat(Environment) && IsTypeExist(Type))
             {
-                if (member.HabitatName == Environment)
+                foreach (Habitat member in HabitatList)
                 {
-                    member.AddNewAnimal(SpeciesName, Type, Environment);
+                    if (member.HabitatName == Environment)
+                    {
+                        member.AddNewAnimal(SpeciesName, Type, Environment);
+                    }
                 }
             }
         }
@@ -185,17 +189,29 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
                 x.NaturalDeath();
             }
         }*/
-
-        /*public Habitat FindHabitatByName(string habitatName)
-       {
-           foreach (Habitat habitat in HabitatList)
-           {
-               if (habitat.HabitatName == habitatName)
-               {
-                   return habitat;
-               }
-           }
-           return null;
-       }*/
+        
+        private bool IsExistHabitat(string habitatName)
+        {
+            foreach (Habitat habitat in HabitatList)
+            {
+                if (habitat.HabitatName == habitatName)
+                {
+                    return true;
+                }
+            }
+            Console.WriteLine("This Habitat is not exist. You should build it first!");
+            Thread.Sleep(2000);
+            return false;
+        }
+        private bool IsTypeExist(string type)
+        {
+            if (type == "carnivore" || type == "herbivore" || type == "omnivore")
+            {
+                return true;
+            }
+            Console.WriteLine("The type should be 'carnivore', 'herbivore' or 'omnivore'.");
+            Thread.Sleep(2000);
+            return false;
+        }
     }
 }

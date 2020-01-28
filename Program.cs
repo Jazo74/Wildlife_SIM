@@ -6,17 +6,25 @@ using codecool.miskolc.zoltan_jarmy.sanctuary.ui;
 
 namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
 {
-    class Program
+    public class Program
     {
         // Fields
-            ResourcePool arkOne = new ResourcePool("new");
-            static Program sanctuary = new Program();
+        static Program sanctuary;
+        static interactivitiy UI;
+        public ResourcePool arkOne;
+        public bool offline = false;
+
         // Methods
+        public Program()
+        {
+            arkOne = new ResourcePool("new");
+        }
         static void Main(string[] args)
         {
             Console.Clear();
-            sanctuary.Repeating();
-            
+            sanctuary = new Program();
+            UI = new interactivitiy();
+            UI.UI(sanctuary);
         }
         
         void TestAnimals()
