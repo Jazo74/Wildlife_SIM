@@ -123,11 +123,10 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.ui
                     life.Cycle(p);
                     break;
                 case "3":
+                    p.arkOne.SerializeMyList();
                     break;
                 case "4":
-                    Console.ForegroundColor = ConsoleColor.DarkRed;
-                    Console.WriteLine("The stored datas has erased!");
-                    Console.ForegroundColor = ConsoleColor.White;
+                    p.arkOne.DeSerializeMyList();
                     break;
                 case "5":
                     bool loopS = true;

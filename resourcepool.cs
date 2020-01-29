@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
+using System.Xml.Serialization;
+using System.IO;
 
 namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
 {
@@ -35,7 +37,7 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
 
         // Constructor
         public ResourcePool(String State)
-        {           
+        {
             if (State == "new")
             {
                 HabitatList.Add(new Habitat("Rainforest"));
@@ -133,16 +135,16 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
             }
         }
         public void SetLoad()
-        { 
-            HeatLoad = Math.Round(AllHeatReq / (decimal)AllHeatCapacity * 100,0);
-            EnergyLoad = Math.Round(AllEnergyReq / (decimal)AllEnergyCapacity * 100,0);
-            FoodLoad = Math.Round(AllFoodReq / (decimal)AllFoodCapacity * 100,0);
-            OxigenLoad = Math.Round(AllOxigenReq / (decimal)AllOxigenCapacity * 100,0);
-            WaterLoad = Math.Round(AllWaterReq / (decimal)AllWaterCapacity * 100,0);    
+        {
+            HeatLoad = Math.Round(AllHeatReq / (decimal)AllHeatCapacity * 100, 0);
+            EnergyLoad = Math.Round(AllEnergyReq / (decimal)AllEnergyCapacity * 100, 0);
+            FoodLoad = Math.Round(AllFoodReq / (decimal)AllFoodCapacity * 100, 0);
+            OxigenLoad = Math.Round(AllOxigenReq / (decimal)AllOxigenCapacity * 100, 0);
+            WaterLoad = Math.Round(AllWaterReq / (decimal)AllWaterCapacity * 100, 0);
         }
         public void CreatingAHabitat(String habitatName)
         {
-            Habitat NewHabitat  = new Habitat(habitatName);
+            Habitat NewHabitat = new Habitat(habitatName);
             HabitatList.Add(NewHabitat);
         }
         public void AddNewAnimal(String SpeciesName, String Type, String Environment)
@@ -194,7 +196,7 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
                 x.NaturalDeath();
             }
         }*/
-        
+
         private bool IsExistHabitat(string habitatName)
         {
             foreach (Habitat habitat in HabitatList)
@@ -216,6 +218,35 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
             }
             Console.WriteLine("The type should be 'carnivore', 'herbivore' or 'omnivore'.");
             Thread.Sleep(2000);
+            return false;
+        }
+        public void SerializeMyList() // serializing the data to an xml file
+        {
+            XmlSerializer xmlBuild = new XmlSerializer(HabitatList.GetType());
+            FileStream file = new FileStream("sanctuary.xml", FileMode.Create);
+            xmlBuild.Serialize(file, HabitatList);
+            file.Close();
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("The Serialization has completed.");
+            Console.ForegroundColor = ConsoleColor.White;
+            Thread.Sleep(2000);
+        }
+        public bool DeSerializeMyList() // deserializing the the date from an xml file
+        {
+            XmlSerializer xmlBuild = new XmlSerializer(HabitatList.GetType());
+            if (File.Exists("sanctuary.xml"))
+            {
+                FileStream file = new FileStream("sanctuary.xml", FileMode.Open);
+                HabitatList.Clear();
+                List<Habitat> newObject = (List<Habitat>)xmlBuild.Deserialize(file);
+                HabitatList = newObject;
+                file.Close();
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("The deSerialization has completed.");
+                Console.ForegroundColor = ConsoleColor.White;
+                Thread.Sleep(2000);
+                return true;
+            }
             return false;
         }
     }

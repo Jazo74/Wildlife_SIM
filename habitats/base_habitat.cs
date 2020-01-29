@@ -1,24 +1,32 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using System.Xml.Serialization;
 
 namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
 {
+    [Serializable]
     public class Habitat
     {
         // Base Properties
         static Random rnd = new Random();
         public String HabitatName { get; set; }
-        public int Size { get; private set; }
+        [XmlIgnore]
         public int SumReqHeat { get; private set; }
+        [XmlIgnore]
         public int SumReqOxigen { get; private set; }
+        [XmlIgnore]
         public int SumReqWater { get; private set; }
+        [XmlIgnore]
         public int SumReqFood { get; private set; }
+        [XmlIgnore]
         public int SumReqEnergy { get; private set; }
         public List<Animal> AnimalList = new List<Animal>();
+        [XmlIgnore]
         public Dictionary<string, int> AnimalDict = new Dictionary<string, int>();
         
         //Constructor
+        public Habitat() { }
         public Habitat(String HabitatName)
         {
             this.HabitatName = HabitatName;
@@ -27,13 +35,11 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
             SumReqWater = 0;
             SumReqFood = 0;
             SumReqEnergy = 0;
-            Size = 0;
         }
 
         // Methods
         public void GatherAllReq()
         {
-            Size = 0;
             SumReqEnergy = 0;
             SumReqFood = 0;
             SumReqHeat = 0;
@@ -41,7 +47,6 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
             SumReqWater = 0;
             foreach (Animal member in AnimalList)
             {
-                Size += member.ReqSpace;
                 SumReqHeat += member.ReqHeatUnit;
                 SumReqOxigen += member.ReqOxigenUnit;
                 SumReqFood += member.ReqFoodUnit;
