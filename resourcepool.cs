@@ -158,15 +158,20 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
                 }
             }
         }
-        public void RelocateAnimal(String OwnName, String Environment)
+        public bool RelocateAnimal(String OwnName)
         {
             foreach (Habitat member in HabitatList)
             {
-                if (member.HabitatName == Environment)
+                foreach (Animal animal in member.AnimalList)
                 {
-                    member.RelocateAnimal(OwnName);
+                    if (animal.OwnName == OwnName)
+                    {
+                        member.RelocateAnimal(OwnName);
+                        return true;
+                    }
                 }
             }
+            return false;
         }
         public void BirthDay()
         {
@@ -205,7 +210,7 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
         }
         private bool IsTypeExist(string type)
         {
-            if (type == "carnivore" || type == "herbivore" || type == "omnivore")
+            if (type == "Carnivore" || type == "Herbivore" || type == "Omnivore")
             {
                 return true;
             }

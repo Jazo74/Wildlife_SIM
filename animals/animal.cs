@@ -3,18 +3,19 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
 {
     public class Animal : Species
     {
-        static int ID { get; set;} 
+        static int ID { get; set;}
+        static Random rand = new Random();
         // Constructor
         public Animal(String SpeciesName, String Type, String IdealEnvironment)
         {
             ID += 1;
             OwnName = ID.ToString();
             ReqSpace = 1000;
-            ReqHeatUnit = 1;
-            ReqOxigenUnit = 3;
-            ReqFoodUnit = 2;
-            ReqWaterUnit = 2;
-            ReqEnergyUnit = 1;
+            ReqHeatUnit = rand.Next(1, 5);
+            ReqOxigenUnit = rand.Next(1, 5);
+            ReqFoodUnit = rand.Next(1, 5);
+            ReqWaterUnit = rand.Next(1, 5);
+            ReqEnergyUnit = rand.Next(1, 5);
             //MaximumAge = rnd.Next(20000, 50000);
             this.SpeciesName = SpeciesName;
             this.Type = Type;

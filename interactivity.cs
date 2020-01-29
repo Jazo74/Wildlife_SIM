@@ -6,18 +6,20 @@ using codecool.miskolc.zoltan_jarmy.sanctuary.core;
 
 namespace codecool.miskolc.zoltan_jarmy.sanctuary.ui
 {
-    public class interactivitiy
+    public class interactivity
     {
-        public interactivitiy()
+        Lifecycle life;
+        public interactivity()
         {
+            life = new Lifecycle();
         }
-        public void UI(Program RunningProgram)
+        public void UI(Program p)
         {
             bool loop = true;
             while (loop)
             {
                 Menu();
-                loop = Choice(RunningProgram);
+                loop = Choice(p,life);
             }
             
         }
@@ -59,7 +61,7 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.ui
             Console.WriteLine("Habitat panel (please choose a number)");
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine();
-            Console.WriteLine("(0) Building a new Habitat zones");
+            Console.WriteLine("(0) Building a new Habitat zone");
             Console.WriteLine("(1) Information about the current zones");
             Console.WriteLine("(2) Recalibrating the zones");
             Console.WriteLine("(3) Demolish a zone");
@@ -75,9 +77,10 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.ui
             Console.WriteLine();
             Console.WriteLine("(0) Arriving a new animal");
             Console.WriteLine("(1) Informations about an animal");
-            Console.WriteLine("(2) Update the informations of the animal");
-            Console.WriteLine("(3) Relocating an animal");
-            Console.WriteLine("(4) Back to the main panel");
+            Console.WriteLine("(2) Informations about all animal");
+            Console.WriteLine("(3) Update the informations of the animal");
+            Console.WriteLine("(4) Relocating an animal");
+            Console.WriteLine("(5) Back to the main panel");
             Console.WriteLine();
         }
         public void SubMenuStatistics()
@@ -92,7 +95,8 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.ui
             Console.WriteLine("(2) Back to the main panel");
             Console.WriteLine();
         }
-        public bool Choice(Program RunningProgram)
+
+        public bool Choice(Program p, Lifecycle life)
         {
             string choice;
             choice = Console.ReadLine();
@@ -104,7 +108,7 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.ui
                     while (loopH)
                     {
                         SubMenuHabitat();
-                        loopH = SubChoiceHabitat(RunningProgram);
+                        loopH = SubChoiceHabitat(p);
                     }
                     break;
                 case "1":
@@ -112,10 +116,11 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.ui
                     while (loopA)
                     {
                         SubMenuAnimal();
-                        loopA = SubChoiceAnimal(RunningProgram);
+                        loopA = SubChoiceAnimal(p);
                     }
                     break;
                 case "2":
+                    life.Cycle(p);
                     break;
                 case "3":
                     break;
@@ -129,7 +134,7 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.ui
                     while (loopS)
                     {
                         SubMenuStatistics();
-                        loopS = SubChoiceStatistics(RunningProgram);
+                        loopS = SubChoiceStatistics(p);
                     }
                     break;
                 case "6":
@@ -149,7 +154,7 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.ui
             }
             return true;
         }
-        public bool SubChoiceHabitat(Program RunningProgram)
+        public bool SubChoiceHabitat(Program p)
         {
             string choice;
             choice = Console.ReadLine();
@@ -161,7 +166,7 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.ui
                     bool found2 = false;
                     Console.Write("The name of the new Habitat?: ");
                     newName = Console.ReadLine();
-                    foreach (Habitat zone in RunningProgram.arkOne.HabitatList)
+                    foreach (Habitat zone in p.arkOne.HabitatList)
                     {
                         if (zone.HabitatName == newName)
                         {
@@ -173,11 +178,11 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.ui
                     }
                     if (found2 == false)
                     {
-                        RunningProgram.arkOne.CreatingAHabitat(newName);
+                        p.arkOne.CreatingAHabitat(newName);
                     }
                     break;
                 case "1": // Displaying Habitats
-                    foreach (Habitat zone in RunningProgram.arkOne.HabitatList)
+                    foreach (Habitat zone in p.arkOne.HabitatList)
                     {
                         Console.Write(zone.HabitatName + ": ");
                         Console.WriteLine(zone.AnimalList.Count.ToString() + " animals live in this Habitat.");
@@ -191,7 +196,7 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.ui
                     string zoneName1 = Console.ReadLine();
                     Console.Write("What will be the new name of the Habitat?: ");
                     newName = Console.ReadLine();
-                    foreach (Habitat zone in RunningProgram.arkOne.HabitatList)
+                    foreach (Habitat zone in p.arkOne.HabitatList)
                     {
                         if (zone.HabitatName == zoneName1)
                         {
@@ -203,8 +208,7 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.ui
                             }
                             else
                             {
-                                
-                                foreach (Habitat zone2 in RunningProgram.arkOne.HabitatList)
+                                foreach (Habitat zone2 in p.arkOne.HabitatList)
                                 {
                                     if (zone2.HabitatName == newName)
                                     {
@@ -214,12 +218,16 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.ui
                                         break;
                                     }
                                 }
+                                zone.HabitatName = newName;
+                                found1 = true;
                             }
                         }
+                        
                     }
                     if (found1 == false)
                     {
                         Console.WriteLine("There is no habitat with this Name.");
+                        Thread.Sleep(2000);
                     }
                     break;
                 case "3": // Deleting a Habitat
@@ -227,7 +235,7 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.ui
                     bool found = false;
                     Console.Write("The name of the Habitat, you want the demolish?: ");
                     string zoneName2 = Console.ReadLine();
-                    foreach (Habitat zone in RunningProgram.arkOne.HabitatList)
+                    foreach (Habitat zone in p.arkOne.HabitatList)
                     {
                         if (zone.HabitatName == zoneName2)
                         {
@@ -253,12 +261,12 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.ui
                     }
                     if (killCommand == true)
                     {
-                        for (int index = RunningProgram.arkOne.HabitatList.Count - 1;  index >= 0; index--)
+                        for (int index = p.arkOne.HabitatList.Count - 1;  index >= 0; index--)
                         {
-                            if (RunningProgram.arkOne.HabitatList[index].HabitatName == zoneName2)
+                            if (p.arkOne.HabitatList[index].HabitatName == zoneName2)
                             {
-                                Console.WriteLine("The " + RunningProgram.arkOne.HabitatList[index].HabitatName + " zone has removed");
-                                RunningProgram.arkOne.HabitatList.RemoveAt(index);
+                                Console.WriteLine("The " + p.arkOne.HabitatList[index].HabitatName + " zone has removed");
+                                p.arkOne.HabitatList.RemoveAt(index);
                                 Thread.Sleep(2000);
                             }
                         }
@@ -274,7 +282,7 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.ui
             }
             return true;
         }
-        public bool SubChoiceAnimal(Program RunningProgram)
+        public bool SubChoiceAnimal(Program p)
         {
             string choice;
             choice = Console.ReadLine();
@@ -291,14 +299,14 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.ui
                     habitatName = Console.ReadLine();
                     Console.Write("What kind of animal is this? (herbivore, carnivore, omnivore): ");
                     type = Console.ReadLine();
-                    RunningProgram.arkOne.AddNewAnimal(speciesName, type, habitatName);
+                    p.arkOne.AddNewAnimal(speciesName, type, habitatName);
                     break;
                 case "1":
                     string animalNr;
                     bool found = false;
                     Console.Write("What is the ID of the animal?: ");
                     animalNr = Console.ReadLine();
-                    foreach (Habitat habitat in RunningProgram.arkOne.HabitatList)
+                    foreach (Habitat habitat in p.arkOne.HabitatList)
                     {
                         foreach (Animal animal in habitat.AnimalList)
                         {
@@ -323,11 +331,33 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.ui
                     Console.ReadLine();
                     break;
                 case "2":
+                    foreach (Habitat habitat in p.arkOne.HabitatList)
+                    {
+                        Console.ForegroundColor = ConsoleColor.DarkCyan;
+                        Console.WriteLine(habitat.HabitatName);
+                        Console.ForegroundColor = ConsoleColor.White;
+
+                        foreach (Animal animal in habitat.AnimalList)
+                        {
+                            Console.Write("ID: " + animal.OwnName.PadRight(4));
+                            Console.Write(" " + animal.SpeciesName.PadRight(15));
+                            Console.Write(" RE: " + animal.ReqEnergyUnit);
+                            Console.Write(" RH: " + animal.ReqHeatUnit);
+                            Console.Write(" RO: " + animal.ReqOxigenUnit);
+                            Console.Write(" RW: " + animal.ReqWaterUnit);
+                            Console.WriteLine(" RF: " + animal.ReqFoodUnit);
+                            found = true;
+                        }
+                    }
+                    Console.WriteLine("Press any key to continue...");
+                    Console.ReadKey();
+                    break;
+                case "3":
                     string animalNm;
                     bool found1 = false;
                     Console.Write("What is the ID of the animal?: ");
                     animalNm = Console.ReadLine();
-                    foreach (Habitat habitat in RunningProgram.arkOne.HabitatList)
+                    foreach (Habitat habitat in p.arkOne.HabitatList)
                     {
                         foreach (Animal animal in habitat.AnimalList)
                         {
@@ -346,7 +376,6 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.ui
                                 Console.WriteLine("The parameter should be between 1 and 4! Wrong inputs will be overwrited to the nominal (2)");
                                 Console.ForegroundColor = ConsoleColor.White;
                                 Console.WriteLine();
-
                                 Console.Write("New required energy?: ");
                                 animal.ReqEnergyUnit = CheckInput();
                                 Console.Write("New required heat?: ");
@@ -367,9 +396,15 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.ui
                     Console.WriteLine("Press any key to continue...");
                     Console.ReadLine();
                     break;
-                case "3":
-                    break;
                 case "4":
+                    Console.Write("What is the ID of the animal you want to relocate?: ");
+                    if (!p.arkOne.RelocateAnimal(Console.ReadLine()))
+                    {
+                        Console.WriteLine("There is no such animal...");
+                        Thread.Sleep(2000);
+                    }
+                    break;
+                case "5":
                     return false;
                 default:
                     Console.ForegroundColor = ConsoleColor.DarkRed;
@@ -379,7 +414,7 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.ui
             }
             return true;
         }
-        public bool SubChoiceStatistics(Program RunningProgram)
+        public bool SubChoiceStatistics(Program p)
         {
             string choice;
             choice = Console.ReadLine();
@@ -387,7 +422,7 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.ui
             switch (choice)
             {
                 case "0":
-                    foreach (Habitat habitat in RunningProgram.arkOne.HabitatList)
+                    foreach (Habitat habitat in p.arkOne.HabitatList)
                     {
                         habitat.SumAnimals();
                         Console.ForegroundColor = ConsoleColor.DarkCyan;
@@ -405,7 +440,7 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.ui
                     Console.ReadLine();
                     break;
                 case "1":
-                    foreach (Habitat habitat in RunningProgram.arkOne.HabitatList)
+                    foreach (Habitat habitat in p.arkOne.HabitatList)
                     {
                         habitat.SumAnimals();
                         Console.ForegroundColor = ConsoleColor.DarkCyan;

@@ -87,7 +87,8 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine("A " + AnimalList[index].SpeciesName + " baby has born!");
                 Console.ForegroundColor = ConsoleColor.White;
-                AnimalList.Add(AnimalList[index]);
+                AddNewAnimal(AnimalList[index].SpeciesName, AnimalList[index].Type, AnimalList[index].IdealEnvironment);
+                //AnimalList.Add(AnimalList[index]);
             }
         }
         public void Dying()
