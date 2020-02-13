@@ -5,10 +5,25 @@ using static codecool.miskolc.zoltan_jarmy.sanctuary.ui.Toolbox;
 
 namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
 {
-    public class Lifecycle
+    public class Simulation
     {
-        public Lifecycle()
+        public Simulation()
         {
+        }
+        public void LifeCycle(Program p)
+        {
+            StarterPopulation(p);
+            while (!Console.KeyAvailable)
+            {
+                Console.Clear();
+                p.arkOne.ResourceCycle();
+                ShowAnimals(p);
+                ShowRequiredResources(p);
+                ShowResourceGenerators(p);
+                p.arkOne.BirthDay();
+                p.arkOne.Dying();
+                Thread.Sleep(300);
+            }
         }
         void ShowAnimals(Program p)
         {
@@ -16,7 +31,7 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
             WriteLineBlue("Current Population:");
             WriteLineBlue("-------------------------------------------------------------------------------");
 
-            foreach (Habitat habs in p.arkOne.HabitatList)
+            foreach (Habitat habs in p.arkOne.GetHabitats())
             {
                 habs.SumAnimals();
                 Console.Write(habs.HabitatName.PadRight(18));
@@ -34,7 +49,7 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
             WriteLineBlue("Required Resources:");
             WriteLineBlue("-------------------------------------------------------------------------------");
             Console.WriteLine("Zone               Energy(kW)   Heat(kJ)   Food(unit)   Water(m3)   Oxigen(m3)");
-            foreach (Habitat member in p.arkOne.HabitatList)
+            foreach (Habitat member in p.arkOne.GetHabitats())
             {
                 Console.Write(member.HabitatName.ToString().PadRight(19));
                 Console.Write(member.SumReqEnergy.ToString().PadRight(13));
@@ -58,7 +73,7 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
             WriteLineBlue("Messages:");
 
         }
-        void StarterPopulate(Program p)
+        void StarterPopulation(Program p)
         {
             for (int i = 0; i < 10; i++)
             {
@@ -79,20 +94,6 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
                 p.arkOne.AddNewAnimal("Seagull", "Herbivore", "Sea");
             }
         }
-        public void Cycle(Program p)
-        {
-            StarterPopulate(p);
-            while (!Console.KeyAvailable)
-            {
-                p.arkOne.ResourceCycle();
-                ShowAnimals(p);
-                ShowRequiredResources(p);
-                ShowResourceGenerators(p);
-                p.arkOne.BirthDay();
-                p.arkOne.Dying();
-                Thread.Sleep(10);
-                Console.Clear();
-            }
-        }
+        
     }
 }

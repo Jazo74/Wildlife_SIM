@@ -9,10 +9,10 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.ui
 {
     public class interactivity
     {
-        Lifecycle life;
+        Simulation life;
         public interactivity()
         {
-            life = new Lifecycle();
+            life = new Simulation();
         }
         public void UI(Program p)
         {
@@ -85,7 +85,7 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.ui
             Console.WriteLine();
         }
 
-        public bool Choice(Program p, Lifecycle life)
+        public bool Choice(Program p, Simulation life)
         {
             string choice;
             choice = Console.ReadLine();
@@ -109,7 +109,7 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.ui
                     }
                     break;
                 case "2":
-                    life.Cycle(p);
+                    life.LifeCycle(p);
                     break;
                 case "3":
                     p.arkOne.SerializeMyList();
@@ -155,30 +155,23 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.ui
             switch (choice)
             {
                 case "0": // Creating new habitat
-                    string newName;
-                    bool found2 = false;
-                    Console.Write("The name of the new Habitat?: ");
-                    newName = Console.ReadLine();
-                    foreach (Habitat zone in p.arkOne.HabitatList)
+                    string newName = InputAny("The name of the new Habitat?: ");
+                    if (!p.arkOne.HabitatIsExist(newName, p.arkOne.GetHabitats()))
                     {
-                        if (zone.HabitatName == newName)
-                        {
-                            Console.Write("Two zones with same name is not allowed!");
-                            Thread.Sleep(2000);
-                            found2 = true;
-                            break;
-                        }
+                        WriteLineRed("This habitat is already exist!");
                     }
-                    if (found2 == false)
+                    else
                     {
                         p.arkOne.CreatingAHabitat(newName);
+                        WriteLineGreen("Tha habitat has been built.");
                     }
+                    Thread.Sleep(2000);
                     break;
                 case "1": // Displaying Habitats
-                    foreach (Habitat zone in p.arkOne.HabitatList)
+                    foreach (Habitat habitat in p.arkOne.GetHabitats())
                     {
-                        Console.Write(zone.HabitatName + ": ");
-                        Console.WriteLine(zone.AnimalList.Count.ToString() + " animals live in this Habitat.");
+                        Console.Write(habitat.HabitatName + ": ");
+                        Console.WriteLine(habitat.AnimalList.Count.ToString() + " animals live in this Habitat.");
                     }
                     Console.WriteLine("Press any key to continue...");
                     Console.ReadLine();
@@ -187,7 +180,7 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.ui
                     bool found1 = false;
                     string zoneName1 = InputAny("The name of the Habitat?: ");
                     newName = InputAny("What will be the new name of the Habitat?: ");
-                    foreach (Habitat zone in p.arkOne.HabitatList)
+                    foreach (Habitat zone in p.arkOne.GetHabitats())
                     {
                         if (zone.HabitatName == zoneName1)
                         {
@@ -199,7 +192,7 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.ui
                             }
                             else
                             {
-                                foreach (Habitat zone2 in p.arkOne.HabitatList)
+                                foreach (Habitat zone2 in p.arkOne.GetHabitats())
                                 {
                                     if (zone2.HabitatName == newName)
                                     {
@@ -225,7 +218,7 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.ui
                     bool killCommand = false;
                     bool found = false;
                     string zoneName2 = InputAny("The name of the Habitat, you want the demolish ?: ");
-                    foreach (Habitat zone in p.arkOne.HabitatList)
+                    foreach (Habitat zone in p.arkOne.GetHabitats())
                     {
                         if (zone.HabitatName == zoneName2)
                         {
@@ -251,12 +244,12 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.ui
                     }
                     if (killCommand == true)
                     {
-                        for (int index = p.arkOne.HabitatList.Count - 1;  index >= 0; index--)
+                        for (int index = p.arkOne.GetHabitats().Count - 1;  index >= 0; index--)
                         {
-                            if (p.arkOne.HabitatList[index].HabitatName == zoneName2)
+                            if (p.arkOne.GetHabitats()[index].HabitatName == zoneName2)
                             {
-                                Console.WriteLine("The " + p.arkOne.HabitatList[index].HabitatName + " zone has removed");
-                                p.arkOne.HabitatList.RemoveAt(index);
+                                Console.WriteLine("The " + p.arkOne.GetHabitats()[index].HabitatName + " zone has removed");
+                                p.arkOne.GetHabitats().RemoveAt(index);
                                 Thread.Sleep(2000);
                             }
                         }
@@ -265,9 +258,7 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.ui
                 case "4":
                     return false;
                 default:
-                    Console.ForegroundColor = ConsoleColor.DarkRed;
-                    Console.WriteLine("Wrong option!");
-                    Console.ForegroundColor = ConsoleColor.White;
+                    WriteLineRed("Wrong option!");
                     break;
             }
             return true;
@@ -299,39 +290,32 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.ui
                     }
                     catch (HabitatNotExistException)
                     {
-                        Console.WriteLine("This Habitat is not exist. You should build it first!");
+                        WriteLineRed("This Habitat is not exist. You should build it first!");
                         Thread.Sleep(2000);
                     }
                     break;
                 case "1": //Listing an animal
-                    bool found = false;
-                    string animalNr = InputAny("What is the ID of the animal?: ");
-                    foreach (Habitat habitat in p.arkOne.HabitatList)
+                    Animal animaL;
+                    try
                     {
-                        foreach (Animal animal in habitat.AnimalList)
-                        {
-                            if (animal.OwnName == animalNr)
-                            {
-                                Console.WriteLine("The animal ID is: " + animal.OwnName);
-                                Console.WriteLine("The animal species is: " + animal.SpeciesName);
-                                Console.WriteLine("Required energy: " + animal.ReqEnergyUnit);
-                                Console.WriteLine("Required heat: " + animal.ReqHeatUnit);
-                                Console.WriteLine("Required oxigen: " + animal.ReqOxigenUnit);
-                                Console.WriteLine("Required water: " + animal.ReqWaterUnit);
-                                Console.WriteLine("Required food: " + animal.ReqFoodUnit);
-                                found = true;
-                            }
-                        }
+                        animaL = p.arkOne.FoundAnimal(InputAny("What is the ID of the animal?: "));
+                        Console.WriteLine("The animal ID is: " + animaL.OwnName);
+                        Console.WriteLine("The animal species is: " + animaL.SpeciesName);
+                        Console.WriteLine("Required energy: " + animaL.ReqEnergyUnit);
+                        Console.WriteLine("Required heat: " + animaL.ReqHeatUnit);
+                        Console.WriteLine("Required oxigen: " + animaL.ReqOxigenUnit);
+                        Console.WriteLine("Required water: " + animaL.ReqWaterUnit);
+                        Console.WriteLine("Required food: " + animaL.ReqFoodUnit);
                     }
-                    if (!found)
+                    catch (AnimalNotExistException)
                     {
-                        Console.WriteLine("There is no such animal...");
+                        WriteLineRed("There is no such animal...");
                     }
-                    Console.WriteLine("Press any key to continue...");
-                    Console.ReadLine();
+                    InputAny("Press any key to continue...");
                     break;
+
                 case "2": //Listing all animal
-                    foreach (Habitat habitat in p.arkOne.HabitatList)
+                    foreach (Habitat habitat in p.arkOne.GetHabitats())
                     {
                         WriteLineBlue(habitat.HabitatName);
                         foreach (Animal animal in habitat.AnimalList)
@@ -343,58 +327,49 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.ui
                             Console.Write(" RO: " + animal.ReqOxigenUnit);
                             Console.Write(" RW: " + animal.ReqWaterUnit);
                             Console.WriteLine(" RF: " + animal.ReqFoodUnit);
-                            found = true;
                         }
                     }
                     Console.WriteLine("Press any key to continue...");
                     Console.ReadKey();
                     break;
                 case "3": //Update an animal
-                    bool found1 = false;
-                    string animalNm = ("What is the ID of the animal?: ");
-                    foreach (Habitat habitat in p.arkOne.HabitatList)
+                    try
                     {
-                        foreach (Animal animal in habitat.AnimalList)
-                        {
-                            if (animal.OwnName == animalNm)
-                            {
-                                Console.WriteLine("The animal ID is: " + animal.OwnName);
-                                Console.WriteLine("The animal species is: " + animal.SpeciesName);
-                                Console.WriteLine("Required energy: " + animal.ReqEnergyUnit);
-                                Console.WriteLine("Required heat: " + animal.ReqHeatUnit);
-                                Console.WriteLine("Required oxigen: " + animal.ReqOxigenUnit);
-                                Console.WriteLine("Required water: " + animal.ReqWaterUnit);
-                                Console.WriteLine("Required food: " + animal.ReqFoodUnit);
-                                found1 = true;
-                                Console.WriteLine();
-                                WriteLineRed("The parameter should be between 1 and 4! Wrong inputs will be overwrited to the nominal (2)");
-                                Console.WriteLine();
-                                Console.Write("New required energy?: ");
-                                animal.ReqEnergyUnit = CheckInput();
-                                Console.Write("New required heat?: ");
-                                animal.ReqHeatUnit = CheckInput();
-                                Console.Write("New required oxigen?: ");
-                                animal.ReqOxigenUnit = CheckInput();
-                                Console.Write("New required water?: ");
-                                animal.ReqWaterUnit = CheckInput();
-                                Console.Write("New required food?: ");
-                                animal.ReqFoodUnit = CheckInput();
-                            }
-                        }
+                        animaL = p.arkOne.FoundAnimal(InputAny("What is the ID of the animal?: "));
+                        Console.WriteLine("The animal ID is: " + animaL.OwnName);
+                        Console.WriteLine("The animal species is: " + animaL.SpeciesName);
+                        Console.WriteLine("Required energy: " + animaL.ReqEnergyUnit);
+                        Console.WriteLine("Required heat: " + animaL.ReqHeatUnit);
+                        Console.WriteLine("Required oxigen: " + animaL.ReqOxigenUnit);
+                        Console.WriteLine("Required water: " + animaL.ReqWaterUnit);
+                        Console.WriteLine("Required food: " + animaL.ReqFoodUnit);
+                        Console.WriteLine();
+                        WriteLineRed("The parameters should be between 1 and 4");
+                        Console.WriteLine();
+                        animaL.ReqEnergyUnit = InputIntBetween("New required energy?: ", 1, 4);
+                        animaL.ReqHeatUnit = InputIntBetween("New required heat ?: ", 1, 4);
+                        animaL.ReqOxigenUnit = InputIntBetween("New required oxigen?: ", 1, 4);
+                        animaL.ReqWaterUnit = InputIntBetween("New required water?: ", 1, 4);
+                        animaL.ReqFoodUnit = InputIntBetween("New required food?: ", 1, 4);
+                        Console.WriteLine("The parameters of this animal has updated");
                     }
-                    if (!found1)
+                    catch (AnimalNotExistException)
                     {
-                        Console.WriteLine("There is no such animal...");
+                        WriteLineRed("There is no such animal...");
                     }
-                    Console.WriteLine("Press any key to continue...");
-                    Console.ReadLine();
+                    Thread.Sleep(2000);
                     break;
                 case "4": //Removing an animal
-                    if (!p.arkOne.RelocateAnimal(InputAny("What is the ID of the animal you want to relocate?: ")))
+                    try
                     {
-                        Console.WriteLine("There is no such animal...");
-                        Thread.Sleep(2000);
+                        p.arkOne.RelocateAnimal(InputAny("What is the ID of the animal you want to relocate?: "));
+                        WriteLineGreen("The animal has relocated.");
                     }
+                    catch (AnimalNotExistException)
+                    {
+                        WriteLineRed("There is no such animal...");
+                    }
+                    Thread.Sleep(2000);
                     break;
                 case "5":
                     return false;
@@ -412,7 +387,7 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.ui
             switch (choice)
             {
                 case "0":
-                    foreach (Habitat habitat in p.arkOne.HabitatList)
+                    foreach (Habitat habitat in p.arkOne.GetHabitats())
                     {
                         habitat.SumAnimals();
                         WriteBlue(habitat.HabitatName);
@@ -428,7 +403,7 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.ui
                     Console.ReadLine();
                     break;
                 case "1":
-                    foreach (Habitat habitat in p.arkOne.HabitatList)
+                    foreach (Habitat habitat in p.arkOne.GetHabitats())
                     {
                         habitat.SumAnimals();
                         WriteLineBlue(habitat.HabitatName.ToUpper() + " : ");
@@ -448,28 +423,6 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.ui
                     break;
             }
             return true;
-        }
-        private int CheckInput()
-        {
-            int outNumber;
-            string input = Console.ReadLine();
-            if (int.TryParse(input, out outNumber))
-            {
-                if (outNumber < 5 && outNumber > 0)
-                {
-                    return outNumber;
-                }
-                else
-                {
-                    WriteLineRed(" /overwrited to '2'");
-                    return 2;
-                }
-            }
-            else
-            {
-                WriteLineRed(" /overwrited to '2'");
-                return 2;
-            }
         }
     }
 }

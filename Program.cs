@@ -6,7 +6,7 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
 {
     public class Program
     {
-        public Lifecycle life;
+        public Simulation life;
         public ResourcePool arkOne;
 
         public Program()

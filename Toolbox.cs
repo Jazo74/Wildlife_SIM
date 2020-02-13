@@ -65,6 +65,17 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.ui
                 }
             }
         }
+        public static int InputIntBetween(string message, int min, int max)
+        {
+            while (true)
+            {
+                int outNumber = InputInt(message);
+                if (outNumber >= min && outNumber <= max)
+                {
+                    return outNumber;
+                }
+            }
+        }
         public static void WriteLineBlue(string text)
         {
             Console.ForegroundColor = ConsoleColor.DarkCyan;

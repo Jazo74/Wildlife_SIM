@@ -10,7 +10,7 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
     {
         // Properties
 
-        public List<Habitat> HabitatList = new List<Habitat>();
+        private List<Habitat> habitatList = new List<Habitat>();
         public List<HeatCollector> HeatCollectors = new List<HeatCollector>();
         public List<SolarPanel> SolarPanels = new List<SolarPanel>();
         public List<OxigenGenerator> OxigenGenerators = new List<OxigenGenerator>();
@@ -40,11 +40,11 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
         {
             if (State == "new")
             {
-                HabitatList.Add(new Habitat("Rainforest"));
-                HabitatList.Add(new Habitat("Temperate Forest"));
-                HabitatList.Add(new Habitat("Sea"));
-                HabitatList.Add(new Habitat("Arctic"));
-                HabitatList.Add(new Habitat("Savannah"));
+                habitatList.Add(new Habitat("Rainforest"));
+                habitatList.Add(new Habitat("Temperate Forest"));
+                habitatList.Add(new Habitat("Sea"));
+                habitatList.Add(new Habitat("Arctic"));
+                habitatList.Add(new Habitat("Savannah"));
                 HeatCollectors.Add(new HeatCollector());
                 SolarPanels.Add(new SolarPanel());
                 FoodReplicators.Add(new FoodReplicator());
@@ -52,7 +52,6 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
                 WaterFilters.Add(new WaterFilter());
             }
         }
-        // Methods
         public void ResourceCycle()
         {
             SumAllRequiredResource();
@@ -67,7 +66,7 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
             AllFoodReq = 0;
             AllOxigenReq = 0;
             AllWaterReq = 0;
-            foreach (Habitat member in HabitatList)
+            foreach (Habitat member in habitatList)
             {
                 member.GatherAllReq();
                 AllHeatReq += member.SumReqHeat;
@@ -144,7 +143,19 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
         public void CreatingAHabitat(String habitatName)
         {
             Habitat NewHabitat = new Habitat(habitatName);
-            HabitatList.Add(NewHabitat);
+            habitatList.Add(NewHabitat);
+        }
+        public List<Habitat> GetHabitats()
+        {
+            return habitatList;
+        }
+        public bool HabitatIsExist(string habitatName, List<Habitat> habitats)
+        {
+            foreach (Habitat habitat in habitats)
+            {
+                if (habitat.HabitatName == habitatName) {return true;}
+            }
+            return false;
         }
         public void AddNewAnimal(String SpeciesName, String Type, String Environment)
         {
@@ -152,7 +163,7 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
             {
                 throw new HabitatNotExistException();
             }
-            foreach (Habitat member in HabitatList)
+            foreach (Habitat member in habitatList)
             {
                 if (member.HabitatName == Environment)
                 {
@@ -160,38 +171,56 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
                 }
             }
         }
-        public bool RelocateAnimal(String OwnName)
+        public Animal FoundAnimal(String OwnName)
         {
-            foreach (Habitat member in HabitatList)
+            foreach (Habitat member in habitatList)
+            {
+                foreach (Animal animal in member.AnimalList)
+                {
+                    if (animal.OwnName == OwnName)
+                    {
+                        return animal;
+                    }
+                }
+            }
+            throw new AnimalNotExistException();
+        }
+        public void RelocateAnimal(String OwnName)
+        {
+            bool found = false;
+            foreach (Habitat member in habitatList)
             {
                 foreach (Animal animal in member.AnimalList)
                 {
                     if (animal.OwnName == OwnName)
                     {
                         member.RelocateAnimal(OwnName);
-                        return true;
+                        found = true;
                     }
                 }
             }
-            return false;
+            if (!found)
+            {
+                throw new AnimalNotExistException();
+            }
         }
         public void BirthDay()
         {
-            foreach (Habitat x in HabitatList)
+            foreach (Habitat habitat in habitatList)
             {
-                x.Birth();
+                habitat.Birth();
             }
         }
         public void Dying()
         {
-            foreach (Habitat x in HabitatList)
+            foreach (Habitat habitat in habitatList)
             {
-                x.Dying();
+                habitat.Dying();
             }
         }
         private bool IsHabitatExist(string habitatName)
         {
-            foreach (Habitat habitat in HabitatList)
+            foreach (Habitat habitat in habitatList)
             {
                 if (habitat.HabitatName == habitatName)
                 {
@@ -202,9 +231,9 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
         }
         public void SerializeMyList() // serializing the data to an xml file
         {
-            XmlSerializer xmlBuild = new XmlSerializer(HabitatList.GetType());
+            XmlSerializer xmlBuild = new XmlSerializer(habitatList.GetType());
             FileStream file = new FileStream("sanctuary.xml", FileMode.Create);
-            xmlBuild.Serialize(file, HabitatList);
+            xmlBuild.Serialize(file, habitatList);
             file.Close();
         }
         public void DeSerializeMyList() // deserializing the the date from an xml file
@@ -213,11 +242,11 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
             {
                 throw new FileNotExistException();
             }
-            XmlSerializer xmlBuild = new XmlSerializer(HabitatList.GetType());
+            XmlSerializer xmlBuild = new XmlSerializer(habitatList.GetType());
             FileStream file = new FileStream("sanctuary.xml", FileMode.Open);
-            HabitatList.Clear();
+            habitatList.Clear();
             List<Habitat> newObject = (List<Habitat>)xmlBuild.Deserialize(file);
-            HabitatList = newObject;
+            habitatList = newObject;
             file.Close();
         }
     }
