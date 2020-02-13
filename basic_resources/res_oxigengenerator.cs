@@ -8,7 +8,7 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
         public OxigenGenerator()
         {
             State = "Running";
-            Capacity = 700;
+            Capacity = 3500;
             Load = 0;
             CriticalAccident = false;
             Accident = false;

@@ -4,7 +4,6 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
     public abstract class Species
     {
         public String OwnName { get; set; }
-        //public Random rnd = new Random();
         public String SpeciesName { get; set; } // Tiger, Eagle
         public String Type { get; set; } //carnivore, herbivore, omnivore
         public String IdealEnvironment { get; set; } // Tropical, Arctic

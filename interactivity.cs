@@ -2,6 +2,7 @@
 using System.IO;
 using System.Threading;
 using System.Collections.Generic;
+using static codecool.miskolc.zoltan_jarmy.sanctuary.ui.Toolbox;
 using codecool.miskolc.zoltan_jarmy.sanctuary.core;
 
 namespace codecool.miskolc.zoltan_jarmy.sanctuary.ui
@@ -26,22 +27,16 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.ui
         static public void Menu() // main menu 
         {
             Console.Clear();
-            Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.WriteLine("Welcome to SANCTUARY, the last hope of the animals! (please choose a number)");
-            Console.ForegroundColor = ConsoleColor.White;
+            WriteLineBlue("Welcome to SANCTUARY, the last hope of the animals! (please choose a number)");
             Console.WriteLine();
             Console.Write("Hibernation status    ");
             if (File.Exists("myxml.xml") == false)
             {
-                Console.ForegroundColor = ConsoleColor.DarkRed;
-                Console.WriteLine("Not available");
-                Console.ForegroundColor = ConsoleColor.White;
+                WriteLineRed("Not available");
             }
             else
             {
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine("Available");
-                Console.ForegroundColor = ConsoleColor.White;
+                WriteLineGreen("Available");
             }
             Console.WriteLine();
             Console.WriteLine("(0) Managing Habitat zones");
@@ -57,9 +52,7 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.ui
         public void SubMenuHabitat()
         {
             Console.Clear();
-            Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.WriteLine("Habitat panel (please choose a number)");
-            Console.ForegroundColor = ConsoleColor.White;
+            WriteLineBlue("Habitat panel (please choose a number)");
             Console.WriteLine();
             Console.WriteLine("(0) Building a new Habitat zone");
             Console.WriteLine("(1) Information about the current zones");
@@ -71,9 +64,7 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.ui
         public void SubMenuAnimal()
         {
             Console.Clear();
-            Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.WriteLine("Animals panel (please choose a number)");
-            Console.ForegroundColor = ConsoleColor.White;
+            WriteLineBlue("Animals panel (please choose a number)");
             Console.WriteLine();
             Console.WriteLine("(0) Arriving a new animal");
             Console.WriteLine("(1) Informations about an animal");
@@ -86,9 +77,7 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.ui
         public void SubMenuStatistics()
         {
             Console.Clear();
-            Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.WriteLine("Statistics panel (please choose a number)");
-            Console.ForegroundColor = ConsoleColor.White;
+            WriteLineBlue("Statistics panel (please choose a number)");
             Console.WriteLine();
             Console.WriteLine("(0) Information about the Habitats");
             Console.WriteLine("(1) Information about an animals");
@@ -124,9 +113,20 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.ui
                     break;
                 case "3":
                     p.arkOne.SerializeMyList();
+                    WriteLineGreen("The Serialization has completed.");
+                    Thread.Sleep(1000);
                     break;
                 case "4":
-                    p.arkOne.DeSerializeMyList();
+                    try
+                    {
+                        p.arkOne.DeSerializeMyList();
+                        WriteLineGreen("The DeSerialization has completed.");
+                    }
+                    catch (FileNotExistException)
+                    {
+                        WriteLineRed("The file not exist!");
+                    }
+                    Thread.Sleep(1000);
                     break;
                 case "5":
                     bool loopS = true;
@@ -137,18 +137,12 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.ui
                     }
                     break;
                 case "6":
-                    
-                    return false;
+                    return true;
                 case "7":
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine("Thank you for using our service! Have a nice day citizen!");
-                    Console.ForegroundColor = ConsoleColor.White;
-                    //Thread.Sleep(1000);
+                    WriteLineGreen("Thank you for using our service! Have a nice day citizen!");
                     return false;
                 default:
-                    Console.ForegroundColor = ConsoleColor.DarkRed;
-                    Console.WriteLine("Wrong option!");
-                    Console.ForegroundColor = ConsoleColor.White;
+                    WriteLineRed("Wrong option!");
                     break;
             }
             return true;
@@ -191,10 +185,8 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.ui
                     break;
                 case "2": // Renaming a Habitat
                     bool found1 = false;
-                    Console.Write("The name of the Habitat?: ");
-                    string zoneName1 = Console.ReadLine();
-                    Console.Write("What will be the new name of the Habitat?: ");
-                    newName = Console.ReadLine();
+                    string zoneName1 = InputAny("The name of the Habitat?: ");
+                    newName = InputAny("What will be the new name of the Habitat?: ");
                     foreach (Habitat zone in p.arkOne.HabitatList)
                     {
                         if (zone.HabitatName == zoneName1)
@@ -232,8 +224,7 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.ui
                 case "3": // Deleting a Habitat
                     bool killCommand = false;
                     bool found = false;
-                    Console.Write("The name of the Habitat, you want the demolish?: ");
-                    string zoneName2 = Console.ReadLine();
+                    string zoneName2 = InputAny("The name of the Habitat, you want the demolish ?: ");
                     foreach (Habitat zone in p.arkOne.HabitatList)
                     {
                         if (zone.HabitatName == zoneName2)
@@ -288,23 +279,33 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.ui
             Console.WriteLine();
             switch (choice)
             {
-                case "0":
+                case "0": //Adding new animal
                     string speciesName;
                     string habitatName;
                     string type;
-                    Console.Write("What is the species?: ");
-                    speciesName = Console.ReadLine();
-                    Console.Write("What is the optimal habitat zone?: ");
-                    habitatName = Console.ReadLine();
-                    Console.Write("What kind of animal is this? (herbivore, carnivore, omnivore): ");
-                    type = Console.ReadLine();
-                    p.arkOne.AddNewAnimal(speciesName, type, habitatName);
+                    speciesName = InputAny("What is the species?: ");
+                    habitatName = InputAny("What is the optimal habitat zone ?: ");
+                    while (true)
+                    {
+                        type = InputAny("What kind of animal is this? (herbivore, carnivore, omnivore): ");
+                        if (type.ToLower() == "herbivore" || type.ToLower() == "carnivore" || type.ToLower() == "omnivore")
+                        {
+                            break;
+                        }
+                    }
+                    try
+                    {
+                        p.arkOne.AddNewAnimal(speciesName, type, habitatName);
+                    }
+                    catch (HabitatNotExistException)
+                    {
+                        Console.WriteLine("This Habitat is not exist. You should build it first!");
+                        Thread.Sleep(2000);
+                    }
                     break;
-                case "1":
-                    string animalNr;
+                case "1": //Listing an animal
                     bool found = false;
-                    Console.Write("What is the ID of the animal?: ");
-                    animalNr = Console.ReadLine();
+                    string animalNr = InputAny("What is the ID of the animal?: ");
                     foreach (Habitat habitat in p.arkOne.HabitatList)
                     {
                         foreach (Animal animal in habitat.AnimalList)
@@ -329,13 +330,10 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.ui
                     Console.WriteLine("Press any key to continue...");
                     Console.ReadLine();
                     break;
-                case "2":
+                case "2": //Listing all animal
                     foreach (Habitat habitat in p.arkOne.HabitatList)
                     {
-                        Console.ForegroundColor = ConsoleColor.DarkCyan;
-                        Console.WriteLine(habitat.HabitatName);
-                        Console.ForegroundColor = ConsoleColor.White;
-
+                        WriteLineBlue(habitat.HabitatName);
                         foreach (Animal animal in habitat.AnimalList)
                         {
                             Console.Write("ID: " + animal.OwnName.PadRight(4));
@@ -351,11 +349,9 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.ui
                     Console.WriteLine("Press any key to continue...");
                     Console.ReadKey();
                     break;
-                case "3":
-                    string animalNm;
+                case "3": //Update an animal
                     bool found1 = false;
-                    Console.Write("What is the ID of the animal?: ");
-                    animalNm = Console.ReadLine();
+                    string animalNm = ("What is the ID of the animal?: ");
                     foreach (Habitat habitat in p.arkOne.HabitatList)
                     {
                         foreach (Animal animal in habitat.AnimalList)
@@ -371,9 +367,7 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.ui
                                 Console.WriteLine("Required food: " + animal.ReqFoodUnit);
                                 found1 = true;
                                 Console.WriteLine();
-                                Console.ForegroundColor = ConsoleColor.Red;
-                                Console.WriteLine("The parameter should be between 1 and 4! Wrong inputs will be overwrited to the nominal (2)");
-                                Console.ForegroundColor = ConsoleColor.White;
+                                WriteLineRed("The parameter should be between 1 and 4! Wrong inputs will be overwrited to the nominal (2)");
                                 Console.WriteLine();
                                 Console.Write("New required energy?: ");
                                 animal.ReqEnergyUnit = CheckInput();
@@ -395,9 +389,8 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.ui
                     Console.WriteLine("Press any key to continue...");
                     Console.ReadLine();
                     break;
-                case "4":
-                    Console.Write("What is the ID of the animal you want to relocate?: ");
-                    if (!p.arkOne.RelocateAnimal(Console.ReadLine()))
+                case "4": //Removing an animal
+                    if (!p.arkOne.RelocateAnimal(InputAny("What is the ID of the animal you want to relocate?: ")))
                     {
                         Console.WriteLine("There is no such animal...");
                         Thread.Sleep(2000);
@@ -406,9 +399,7 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.ui
                 case "5":
                     return false;
                 default:
-                    Console.ForegroundColor = ConsoleColor.DarkRed;
-                    Console.WriteLine("Wrong option!");
-                    Console.ForegroundColor = ConsoleColor.White;
+                    WriteLineRed("Wrong option!");
                     break;
             }
             return true;
@@ -424,9 +415,7 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.ui
                     foreach (Habitat habitat in p.arkOne.HabitatList)
                     {
                         habitat.SumAnimals();
-                        Console.ForegroundColor = ConsoleColor.DarkCyan;
-                        Console.Write(habitat.HabitatName);
-                        Console.ForegroundColor = ConsoleColor.White;
+                        WriteBlue(habitat.HabitatName);
                         int count = 0;
                         foreach (KeyValuePair<string, int> items in habitat.AnimalDict)
                         {
@@ -442,15 +431,12 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.ui
                     foreach (Habitat habitat in p.arkOne.HabitatList)
                     {
                         habitat.SumAnimals();
-                        Console.ForegroundColor = ConsoleColor.DarkCyan;
-                        Console.WriteLine(habitat.HabitatName.ToUpper() + " : ");
-                        Console.ForegroundColor = ConsoleColor.White;
+                        WriteLineBlue(habitat.HabitatName.ToUpper() + " : ");
                         foreach (KeyValuePair<string, int> items in habitat.AnimalDict)
                         {
                             Console.Write(items.Key.ToLower() + " : ");
                             Console.WriteLine(items.Value);
                         }
-
                     }
                     Console.WriteLine("Press any key to continue...");
                     Console.ReadLine();
@@ -458,9 +444,7 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.ui
                 case "2":
                     return false;
                 default:
-                    Console.ForegroundColor = ConsoleColor.DarkRed;
-                    Console.WriteLine("Wrong option!");
-                    Console.ForegroundColor = ConsoleColor.White;
+                    WriteLineRed("Wrong option!");
                     break;
             }
             return true;
@@ -477,17 +461,13 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.ui
                 }
                 else
                 {
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine(" /overwrited to '2'");
-                    Console.ForegroundColor = ConsoleColor.White;
+                    WriteLineRed(" /overwrited to '2'");
                     return 2;
                 }
             }
             else
             {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine(" /overwrited to '2'");
-                Console.ForegroundColor = ConsoleColor.White;
+                WriteLineRed(" /overwrited to '2'");
                 return 2;
             }
         }

@@ -3,11 +3,13 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <RootNamespace>codecool.miskolc.zoltan_jarmy.sanctuary.ui</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
     <Folder Include="animals\" />
     <Folder Include="basic_resources\" />
     <Folder Include="habitats\" />
+    <Folder Include="Exceptions\" />
   </ItemGroup>
 </Project>

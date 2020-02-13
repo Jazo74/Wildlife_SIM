@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
+using static codecool.miskolc.zoltan_jarmy.sanctuary.ui.Toolbox;
 
 namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
 {
@@ -11,11 +12,9 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
         }
         void ShowAnimals(Program p)
         {
-            Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.WriteLine("-------------------------------------------------------------------------------");
-            Console.WriteLine("                             The current population:");
-            Console.WriteLine("-------------------------------------------------------------------------------");
-            Console.ForegroundColor = ConsoleColor.White;
+            WriteLineBlue("-------------------------------------------------------------------------------");
+            WriteLineBlue("Current Population:");
+            WriteLineBlue("-------------------------------------------------------------------------------");
 
             foreach (Habitat habs in p.arkOne.HabitatList)
             {
@@ -25,45 +24,41 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
                 {
                     string tempString = x.Key.PadRight(11) + " " + x.Value;
                     Console.Write(tempString.PadRight(17));
-                    //Console.Write(x.Key + "(");
-                    //Console.Write(x.Value + ") ");
                 }
                 Console.WriteLine();
             }
         }
-        void TestSumReqRes(Program p)
+        void ShowRequiredResources(Program p)
         {
-            Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.WriteLine("-------------------------------------------------------------------------------");
-            Console.WriteLine("                                 Required Resources");
-            Console.WriteLine("-------------------------------------------------------------------------------");
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine("Zone               Energy   Heat   Food   Water   Oxigen");
+            WriteLineBlue("-------------------------------------------------------------------------------");
+            WriteLineBlue("Required Resources:");
+            WriteLineBlue("-------------------------------------------------------------------------------");
+            Console.WriteLine("Zone               Energy(kW)   Heat(kJ)   Food(unit)   Water(m3)   Oxigen(m3)");
             foreach (Habitat member in p.arkOne.HabitatList)
             {
                 Console.Write(member.HabitatName.ToString().PadRight(19));
-                Console.Write(member.SumReqEnergy.ToString().PadRight(9));
-                Console.Write(member.SumReqHeat.ToString().PadRight(7));
-                Console.Write(member.SumReqFood.ToString().PadRight(7));
-                Console.Write(member.SumReqWater.ToString().PadRight(8));
-                Console.WriteLine(member.SumReqOxigen.ToString().PadRight(8));
+                Console.Write(member.SumReqEnergy.ToString().PadRight(13));
+                Console.Write(member.SumReqHeat.ToString().PadRight(11));
+                Console.Write(member.SumReqFood.ToString().PadRight(13));
+                Console.Write(member.SumReqWater.ToString().PadRight(12));
+                Console.WriteLine(member.SumReqOxigen.ToString().PadRight(12));
             }
         }
-        void TestResGenerators(Program p)
+        void ShowResourceGenerators(Program p)
         {
-            Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.WriteLine("-------------------------------------------------------------------------------");
-            Console.WriteLine("                                Running facilities");
-            Console.WriteLine("-------------------------------------------------------------------------------");
-            Console.ForegroundColor = ConsoleColor.White;
+            WriteLineBlue("-------------------------------------------------------------------------------");
+            WriteLineBlue("Running Facilities:");
+            WriteLineBlue("-------------------------------------------------------------------------------");
             Console.WriteLine("Heatcollectors".PadRight(19) + p.arkOne.HeatCollectors.Count + " block, Load: " + p.arkOne.HeatLoad + " %");
             Console.WriteLine("Solarpanels".PadRight(19) + p.arkOne.SolarPanels.Count + " block, Load: " + p.arkOne.EnergyLoad + " %");
             Console.WriteLine("Foodreplicators".PadRight(19) + p.arkOne.FoodReplicators.Count + " block, Load: " + p.arkOne.FoodLoad + " %");
             Console.WriteLine("Oxigen generators".PadRight(19) + p.arkOne.OxigenGenerators.Count + " block, Load: " + p.arkOne.OxigenLoad + " %");
             Console.WriteLine("Water filters: ".PadRight(19) + p.arkOne.WaterFilters.Count + " block, Load: " + p.arkOne.WaterLoad + " %");
+            WriteLineBlue("-------------------------------------------------------------------------------");
+            WriteLineBlue("Messages:");
 
         }
-        void StartPopulate(Program p)
+        void StarterPopulate(Program p)
         {
             for (int i = 0; i < 10; i++)
             {
@@ -86,18 +81,16 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
         }
         public void Cycle(Program p)
         {
-            StartPopulate(p);
+            StarterPopulate(p);
             while (!Console.KeyAvailable)
             {
                 p.arkOne.ResourceCycle();
                 ShowAnimals(p);
-                TestSumReqRes(p);
-                TestResGenerators(p);
-                Console.WriteLine();
+                ShowRequiredResources(p);
+                ShowResourceGenerators(p);
                 p.arkOne.BirthDay();
                 p.arkOne.Dying();
-                //arkOne.NaturalDeath();
-                Thread.Sleep(100);
+                Thread.Sleep(10);
                 Console.Clear();
             }
         }

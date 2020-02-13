@@ -60,7 +60,7 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
             CheckBalance();
             SetLoad();
         }
-        public void SumAllRequiredResource()
+        private void SumAllRequiredResource()
         {
             AllHeatReq = 0;
             AllEnergyReq = 0;
@@ -77,7 +77,7 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
                 AllWaterReq += member.SumReqWater;
             }
         }
-        public void SumAllCapacity()
+        private void SumAllCapacity()
         {
             AllHeatCapacity = 0;
             AllEnergyCapacity = 0;
@@ -104,9 +104,8 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
             {
                 AllWaterCapacity += member.Capacity;
             }
-
         }
-        public void CheckBalance()
+        private void CheckBalance()
         {
             while (AllHeatReq > AllHeatCapacity)
             {
@@ -134,7 +133,7 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
                 SumAllCapacity();
             }
         }
-        public void SetLoad()
+        private void SetLoad()
         {
             HeatLoad = Math.Round(AllHeatReq / (decimal)AllHeatCapacity * 100, 0);
             EnergyLoad = Math.Round(AllEnergyReq / (decimal)AllEnergyCapacity * 100, 0);
@@ -149,14 +148,15 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
         }
         public void AddNewAnimal(String SpeciesName, String Type, String Environment)
         {
-            if (IsExistHabitat(Environment) && IsTypeExist(Type))
+            if (!IsHabitatExist(Environment))
             {
-                foreach (Habitat member in HabitatList)
+                throw new HabitatNotExistException();
+            }
+            foreach (Habitat member in HabitatList)
+            {
+                if (member.HabitatName == Environment)
                 {
-                    if (member.HabitatName == Environment)
-                    {
-                        member.AddNewAnimal(SpeciesName, Type, Environment);
-                    }
+                    member.AddNewAnimal(SpeciesName, Type, Environment);
                 }
             }
         }
@@ -189,15 +189,7 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
                 x.Dying();
             }
         }
-        /*public void NaturalDeath()
-        {
-            foreach (Habitat x in HabitatList)
-            {
-                x.NaturalDeath();
-            }
-        }*/
-
-        private bool IsExistHabitat(string habitatName)
+        private bool IsHabitatExist(string habitatName)
         {
             foreach (Habitat habitat in HabitatList)
             {
@@ -206,18 +198,6 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
                     return true;
                 }
             }
-            Console.WriteLine("This Habitat is not exist. You should build it first!");
-            Thread.Sleep(2000);
-            return false;
-        }
-        private bool IsTypeExist(string type)
-        {
-            if (type == "Carnivore" || type == "Herbivore" || type == "Omnivore")
-            {
-                return true;
-            }
-            Console.WriteLine("The type should be 'carnivore', 'herbivore' or 'omnivore'.");
-            Thread.Sleep(2000);
             return false;
         }
         public void SerializeMyList() // serializing the data to an xml file
@@ -226,28 +206,19 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
             FileStream file = new FileStream("sanctuary.xml", FileMode.Create);
             xmlBuild.Serialize(file, HabitatList);
             file.Close();
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("The Serialization has completed.");
-            Console.ForegroundColor = ConsoleColor.White;
-            Thread.Sleep(2000);
         }
-        public bool DeSerializeMyList() // deserializing the the date from an xml file
+        public void DeSerializeMyList() // deserializing the the date from an xml file
         {
-            XmlSerializer xmlBuild = new XmlSerializer(HabitatList.GetType());
-            if (File.Exists("sanctuary.xml"))
+            if (!File.Exists("sanctuary.xml"))
             {
-                FileStream file = new FileStream("sanctuary.xml", FileMode.Open);
-                HabitatList.Clear();
-                List<Habitat> newObject = (List<Habitat>)xmlBuild.Deserialize(file);
-                HabitatList = newObject;
-                file.Close();
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine("The deSerialization has completed.");
-                Console.ForegroundColor = ConsoleColor.White;
-                Thread.Sleep(2000);
-                return true;
+                throw new FileNotExistException();
             }
-            return false;
+            XmlSerializer xmlBuild = new XmlSerializer(HabitatList.GetType());
+            FileStream file = new FileStream("sanctuary.xml", FileMode.Open);
+            HabitatList.Clear();
+            List<Habitat> newObject = (List<Habitat>)xmlBuild.Deserialize(file);
+            HabitatList = newObject;
+            file.Close();
         }
     }
 }

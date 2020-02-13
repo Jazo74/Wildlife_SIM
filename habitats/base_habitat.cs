@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Xml.Serialization;
+using static codecool.miskolc.zoltan_jarmy.sanctuary.ui.Toolbox;
 
 namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
 {
@@ -37,7 +38,6 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
             SumReqEnergy = 0;
         }
 
-        // Methods
         public void GatherAllReq()
         {
             SumReqEnergy = 0;
@@ -80,7 +80,6 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
                 if (AnimalList[index].OwnName == OwnName)
                 {
                     AnimalList.RemoveAt(index);
-                    // How to destroy this removed object?
                 }
             }
         }
@@ -89,11 +88,8 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
             if (rnd.Next(0,100) > 90)
             {
                 int index = rnd.Next(0, AnimalList.Count);
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine("A " + AnimalList[index].SpeciesName + " baby has born!");
-                Console.ForegroundColor = ConsoleColor.White;
+                WriteLineGreen("A " + AnimalList[index].SpeciesName + " baby has born!");
                 AddNewAnimal(AnimalList[index].SpeciesName, AnimalList[index].Type, AnimalList[index].IdealEnvironment);
-                //AnimalList.Add(AnimalList[index]);
             }
         }
         public void Dying()
@@ -101,25 +97,9 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
             if (rnd.Next(0, 100) > 98)
             {
                 int index = rnd.Next(0, AnimalList.Count);
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("A " + AnimalList[index].SpeciesName + " has died!");
-                Console.ForegroundColor = ConsoleColor.White;
+                WriteLineRed("A " + AnimalList[index].SpeciesName + " has died!");
                 AnimalList.RemoveAt(index);
             }
         }
-        /*public void NaturalDeath()
-        {
-            for (int x = AnimalList.Count - 1; x >= 0; x--)
-            {
-                AnimalList[x].MaximumAge -= 1;
-                if (AnimalList[x].MaximumAge < 1)
-                {
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("A " + AnimalList[x].SpeciesName + " has died!");
-                    Console.ForegroundColor = ConsoleColor.White;
-                    AnimalList.RemoveAt(x);
-                }
-            }
-        }*/
     }
 }
