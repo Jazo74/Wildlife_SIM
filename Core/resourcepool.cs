@@ -8,8 +8,6 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
 {
     public class ResourcePool
     {
-        // Properties
-
         private List<Habitat> habitatList = new List<Habitat>();
         public List<HeatCollector> HeatCollectors = new List<HeatCollector>();
         public List<SolarPanel> SolarPanels = new List<SolarPanel>();
@@ -35,8 +33,7 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
         public decimal FoodLoad { get; set; }
         public decimal WaterLoad { get; set; }
 
-        // Constructor
-        public ResourcePool(String State)
+        public ResourcePool(String State) //constructor
         {
             if (State == "new")
             {
@@ -52,14 +49,14 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
                 WaterFilters.Add(new WaterFilter());
             }
         }
-        public void ResourceCycle()
+        public void ResourceCycle() // Resource math
         {
             SumAllRequiredResource();
             SumAllCapacity();
             CheckBalance();
             SetLoad();
         }
-        private void SumAllRequiredResource()
+        private void SumAllRequiredResource() // gather all the required resources
         {
             AllHeatReq = 0;
             AllEnergyReq = 0;
@@ -76,7 +73,7 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
                 AllWaterReq += member.SumReqWater;
             }
         }
-        private void SumAllCapacity()
+        private void SumAllCapacity() // Sum all the current capacity of the facilities
         {
             AllHeatCapacity = 0;
             AllEnergyCapacity = 0;
@@ -104,7 +101,7 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
                 AllWaterCapacity += member.Capacity;
             }
         }
-        private void CheckBalance()
+        private void CheckBalance() //Checking the input/output balance
         {
             while (AllHeatReq > AllHeatCapacity)
             {
@@ -132,7 +129,7 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
                 SumAllCapacity();
             }
         }
-        private void SetLoad()
+        private void SetLoad() // Set the neccessary loads
         {
             HeatLoad = Math.Round(AllHeatReq / (decimal)AllHeatCapacity * 100, 0);
             EnergyLoad = Math.Round(AllEnergyReq / (decimal)AllEnergyCapacity * 100, 0);
@@ -140,12 +137,12 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
             OxigenLoad = Math.Round(AllOxigenReq / (decimal)AllOxigenCapacity * 100, 0);
             WaterLoad = Math.Round(AllWaterReq / (decimal)AllWaterCapacity * 100, 0);
         }
-        public void CreatingAHabitat(String habitatName)
+        public void CreatingAHabitat(String habitatName) // Creating a new habitat
         {
             Habitat NewHabitat = new Habitat(habitatName);
             habitatList.Add(NewHabitat);
         }
-        public void RemovingAHabitat(string habitatName)
+        public void RemovingAHabitat(string habitatName) // Removing a new habitat
         {
             if (!IsHabitatExist(habitatName)) { throw new HabitatNotExistException(); }
             for (int index = habitatList.Count-1; index >= 0; index--)
@@ -160,11 +157,11 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
                 }
             }
         }
-        public List<Habitat> GetHabitats()
+        public List<Habitat> GetHabitats() // Get the list of all habitats
         {
             return habitatList;
         }
-        public bool IsHabitatExist(string habitatName)
+        public bool IsHabitatExist(string habitatName) // Checking if the habitat exist
         {
             foreach (Habitat habitat in habitatList)
             {
@@ -172,7 +169,7 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
             }
             return false;
         }
-        public void AddNewAnimal(String SpeciesName, String Type, String Environment)
+        public void AddNewAnimal(String SpeciesName, String Type, String Environment) // Adding new animals 
         {
             if (!IsHabitatExist(Environment))
             {
@@ -186,7 +183,7 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
                 }
             }
         }
-        public Animal FoundAnimal(String OwnName)
+        public Animal FoundAnimal(String OwnName) // Checking if an animal exist in the system
         {
             foreach (Habitat habitat in habitatList)
             {
@@ -200,21 +197,21 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
             }
             throw new AnimalNotExistException();
         }
-        public void RelocateAnimal(String OwnName)
+        public void RelocateAnimal(String OwnName) // Relocating (removing) an animal from the system
         {
             foreach (Habitat habitat in habitatList)
             {
                 habitat.RelocateAnimal(OwnName);
             }
         }
-        public void BirthDay()
+        public void BirthDay() // Reproduction function
         {
             foreach (Habitat habitat in habitatList)
             {
                 habitat.Birth();
             }
         }
-        public void Dying()
+        public void Dying() // 
         {
             foreach (Habitat habitat in habitatList)
             {

@@ -10,7 +10,7 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
         public Simulation()
         {
         }
-        public void LifeCycle(Program p, int cycleTime)
+        public void LifeCycle(Program p, int cycleTime) // Running the simulation
         {
             while (!Console.KeyAvailable)
             {
@@ -24,7 +24,7 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
                 Thread.Sleep(cycleTime);
             }
         }
-        void ShowAnimals(Program p)
+        void ShowAnimals(Program p) // Showing the informations of the population by zones
         {
             WriteLineBlue("--------------------------------------------------------------------------------------------------------------");
             WriteLineBlue("Current Population:");
@@ -41,7 +41,7 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
                 Console.WriteLine();
             }
         }
-        void ShowRequiredResources(Program p)
+        void ShowRequiredResources(Program p) //Showing the required resources by zones
         {
             WriteLineBlue("--------------------------------------------------------------------------------------------------------------");
             WriteLineBlue("Required Resources:");
@@ -56,7 +56,7 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
                 Console.WriteLine(member.SumReqOxigen.ToString().PadLeft(13));
             }
         }
-        void ShowResourceGenerators(Program p)
+        void ShowResourceGenerators(Program p) // Showing the current state of the supporting facilities
         {
             WriteLineBlue("--------------------------------------------------------------------------------------------------------------");
             WriteLineBlue("Running Facilities:");
@@ -67,9 +67,6 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
             Console.WriteLine("Water filters: ".PadRight(19) + p.arkOne.WaterFilters.Count + " block, Load: " + p.arkOne.WaterLoad + " %");
             WriteLineBlue("--------------------------------------------------------------------------------------------------------------");
             WriteLineBlue("Messages:");
-
         }
-        
-        
     }
 }
