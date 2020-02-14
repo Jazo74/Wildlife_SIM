@@ -79,13 +79,16 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
         }
         public void RelocateAnimal(String OwnName)
         {
-            for (int index = 0; index < AnimalList.Count; index ++)
+            bool found = false;
+            for (int index = AnimalList.Count-1; index >= 0 ; index --)
             {
                 if (AnimalList[index].OwnName == OwnName)
                 {
                     AnimalList.RemoveAt(index);
+                    found = true;
                 }
             }
+            if (found == false) { throw new AnimalNotExistException(); }
         }
         public void Birth()
         {

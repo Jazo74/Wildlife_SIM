@@ -147,7 +147,7 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
         }
         public void RemovingAHabitat(string habitatName)
         {
-            if (!HabitatIsExist(habitatName)) { throw new HabitatNotExistException(); }
+            if (!IsHabitatExist(habitatName)) { throw new HabitatNotExistException(); }
             for (int index = habitatList.Count-1; index >= 0; index--)
             {
                 if (habitatList[index].HabitatName == habitatName)
@@ -164,7 +164,7 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
         {
             return habitatList;
         }
-        public bool HabitatIsExist(string habitatName)
+        public bool IsHabitatExist(string habitatName)
         {
             foreach (Habitat habitat in habitatList)
             {
@@ -178,19 +178,19 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
             {
                 throw new HabitatNotExistException();
             }
-            foreach (Habitat member in habitatList)
+            foreach (Habitat habitat in habitatList)
             {
-                if (member.HabitatName == Environment)
+                if (habitat.HabitatName == Environment)
                 {
-                    member.AddNewAnimal(SpeciesName, Type, Environment);
+                    habitat.AddNewAnimal(SpeciesName, Type, Environment);
                 }
             }
         }
         public Animal FoundAnimal(String OwnName)
         {
-            foreach (Habitat member in habitatList)
+            foreach (Habitat habitat in habitatList)
             {
-                foreach (Animal animal in member.AnimalList)
+                foreach (Animal animal in habitat.AnimalList)
                 {
                     if (animal.OwnName == OwnName)
                     {
@@ -202,21 +202,9 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
         }
         public void RelocateAnimal(String OwnName)
         {
-            bool found = false;
-            foreach (Habitat member in habitatList)
+            foreach (Habitat habitat in habitatList)
             {
-                foreach (Animal animal in member.AnimalList)
-                {
-                    if (animal.OwnName == OwnName)
-                    {
-                        member.RelocateAnimal(OwnName);
-                        found = true;
-                    }
-                }
-            }
-            if (!found)
-            {
-                throw new AnimalNotExistException();
+                habitat.RelocateAnimal(OwnName);
             }
         }
         public void BirthDay()
@@ -233,17 +221,7 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
                 habitat.Dying();
             }
         }
-        private bool IsHabitatExist(string habitatName)
-        {
-            foreach (Habitat habitat in habitatList)
-            {
-                if (habitat.HabitatName == habitatName)
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
+        
         public void SerializeMyList() // serializing the data to an xml file
         {
             XmlSerializer xmlBuild = new XmlSerializer(habitatList.GetType());
