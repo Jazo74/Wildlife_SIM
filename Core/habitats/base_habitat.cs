@@ -54,6 +54,10 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
                 SumReqEnergy += member.ReqEnergyUnit;
             }
         }
+        public void SetHabitatName(string habitatName)
+        {
+            this.HabitatName = habitatName;
+        }
         public void SumAnimals()
         {
             AnimalDict.Clear();
@@ -87,18 +91,24 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
         {
             if (rnd.Next(0,100) > 90)
             {
-                int index = rnd.Next(0, AnimalList.Count);
-                WriteLineGreen("A " + AnimalList[index].SpeciesName + " baby has born!");
-                AddNewAnimal(AnimalList[index].SpeciesName, AnimalList[index].Type, AnimalList[index].IdealEnvironment);
+                if (AnimalList.Count > 0)
+                {
+                    int index = rnd.Next(0, AnimalList.Count);
+                    WriteLineGreen("A " + AnimalList[index].SpeciesName + " baby has born!");
+                    AddNewAnimal(AnimalList[index].SpeciesName, AnimalList[index].Type, AnimalList[index].IdealEnvironment);
+                }
             }
         }
         public void Dying()
         {
             if (rnd.Next(0, 100) > 98)
             {
-                int index = rnd.Next(0, AnimalList.Count);
-                WriteLineRed("A " + AnimalList[index].SpeciesName + " has died!");
-                AnimalList.RemoveAt(index);
+                if (AnimalList.Count > 50)
+                {
+                    int index = rnd.Next(0, AnimalList.Count);
+                    WriteLineRed("A " + AnimalList[index].SpeciesName + " has died!");
+                    AnimalList.RemoveAt(index);
+                }
             }
         }
     }

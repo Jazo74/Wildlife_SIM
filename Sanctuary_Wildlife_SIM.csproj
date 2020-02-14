@@ -7,9 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="animals\" />
-    <Folder Include="basic_resources\" />
-    <Folder Include="habitats\" />
-    <Folder Include="Exceptions\" />
+    <Folder Include="Core\" />
+    <Folder Include="Core\basic_resources\" />
+    <Folder Include="Core\Exceptions\" />
+    <Folder Include="Core\animals\" />
+    <Folder Include="Core\habitats\" />
   </ItemGroup>
 </Project>

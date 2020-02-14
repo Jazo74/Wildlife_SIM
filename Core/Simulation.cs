@@ -27,9 +27,8 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
         }
         void ShowAnimals(Program p)
         {
-            WriteLineBlue("-------------------------------------------------------------------------------");
+            WriteLineBlue("--------------------------------------------------------------------------------------------------------------");
             WriteLineBlue("Current Population:");
-            WriteLineBlue("-------------------------------------------------------------------------------");
 
             foreach (Habitat habs in p.arkOne.GetHabitats())
             {
@@ -45,10 +44,9 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
         }
         void ShowRequiredResources(Program p)
         {
-            WriteLineBlue("-------------------------------------------------------------------------------");
+            WriteLineBlue("--------------------------------------------------------------------------------------------------------------");
             WriteLineBlue("Required Resources:");
-            WriteLineBlue("-------------------------------------------------------------------------------");
-            Console.WriteLine("Zone               Energy(kW)   Heat(kJ)   Food(unit)   Water(m3)   Oxigen(m3)");
+            WriteLineBlue("Zone               Energy(kW)   Heat(kJ)   Food(unit)   Water(m3)   Oxigen(m3)");
             foreach (Habitat member in p.arkOne.GetHabitats())
             {
                 Console.Write(member.HabitatName.ToString().PadRight(19));
@@ -61,9 +59,8 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
         }
         void ShowResourceGenerators(Program p)
         {
-            WriteLineBlue("-------------------------------------------------------------------------------");
+            WriteLineBlue("--------------------------------------------------------------------------------------------------------------");
             WriteLineBlue("Running Facilities:");
-            WriteLineBlue("-------------------------------------------------------------------------------");
             Console.WriteLine("Heatcollectors".PadRight(19) + p.arkOne.HeatCollectors.Count + " block, Load: " + p.arkOne.HeatLoad + " %");
             Console.WriteLine("Solarpanels".PadRight(19) + p.arkOne.SolarPanels.Count + " block, Load: " + p.arkOne.EnergyLoad + " %");
             Console.WriteLine("Foodreplicators".PadRight(19) + p.arkOne.FoodReplicators.Count + " block, Load: " + p.arkOne.FoodLoad + " %");
@@ -75,23 +72,33 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
         }
         void StarterPopulation(Program p)
         {
-            for (int i = 0; i < 10; i++)
+            int counter = 0;
+            while (counter < 10)
             {
-                p.arkOne.AddNewAnimal("Tiger", "Carnivore", "Rainforest");
-                p.arkOne.AddNewAnimal("Panda", "Herbivore", "Rainforest");
-                p.arkOne.AddNewAnimal("Chimp", "Omnivore", "Rainforest");
-                p.arkOne.AddNewAnimal("Zebra", "Herbivore", "Savannah");
-                p.arkOne.AddNewAnimal("Lion", "Carnivore", "Savannah");
-                p.arkOne.AddNewAnimal("Antilop", "Herbivore", "Savannah");
-                p.arkOne.AddNewAnimal("Wolf", "Carnivore", "Temperate Forest");
-                p.arkOne.AddNewAnimal("Beaver", "Herbivore", "Temperate Forest");
-                p.arkOne.AddNewAnimal("Bald Eagle", "Carnivore", "Temperate Forest");
-                p.arkOne.AddNewAnimal("Polar bear", "Carnivore", "Arctic");
-                p.arkOne.AddNewAnimal("Seal", "Carnivore", "Arctic");
-                p.arkOne.AddNewAnimal("Penguin", "Carnivore", "Arctic");
-                p.arkOne.AddNewAnimal("Dolphin", "Carnivore", "Sea");
-                p.arkOne.AddNewAnimal("Turtle", "Herbivore", "Sea");
-                p.arkOne.AddNewAnimal("Seagull", "Herbivore", "Sea");
+                try
+                {
+                    p.arkOne.AddNewAnimal("Tiger", "Carnivore", "Rainforest");
+                    p.arkOne.AddNewAnimal("Panda", "Herbivore", "Rainforest");
+                    p.arkOne.AddNewAnimal("Chimp", "Omnivore", "Rainforest");
+                    p.arkOne.AddNewAnimal("Zebra", "Herbivore", "Savannah");
+                    p.arkOne.AddNewAnimal("Lion", "Carnivore", "Savannah");
+                    p.arkOne.AddNewAnimal("Antilop", "Herbivore", "Savannah");
+                    p.arkOne.AddNewAnimal("Wolf", "Carnivore", "Temperate Forest");
+                    p.arkOne.AddNewAnimal("Beaver", "Herbivore", "Temperate Forest");
+                    p.arkOne.AddNewAnimal("Bald Eagle", "Carnivore", "Temperate Forest");
+                    p.arkOne.AddNewAnimal("Polar bear", "Carnivore", "Arctic");
+                    p.arkOne.AddNewAnimal("Seal", "Carnivore", "Arctic");
+                    p.arkOne.AddNewAnimal("Penguin", "Carnivore", "Arctic");
+                    p.arkOne.AddNewAnimal("Dolphin", "Carnivore", "Sea");
+                    p.arkOne.AddNewAnimal("Turtle", "Herbivore", "Sea");
+                    p.arkOne.AddNewAnimal("Seagull", "Herbivore", "Sea");
+                    counter++;
+                }
+                catch (HabitatNotExistException)
+                {
+                    WriteLineRed("Habitat is not exist!");
+                    Thread.Sleep(200);
+                }
             }
         }
         

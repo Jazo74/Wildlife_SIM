@@ -15,10 +15,9 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
         }
         static void Main(string[] args)
         {
-            Console.Clear();
             Program p = new Program();
-            interactivity UI = new interactivity();
-            UI.UI(p);
+            UI ui = new UI();
+            ui.Start(p);
         }
     }
 }

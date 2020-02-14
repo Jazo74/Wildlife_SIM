@@ -145,13 +145,28 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
             Habitat NewHabitat = new Habitat(habitatName);
             habitatList.Add(NewHabitat);
         }
+        public void RemovingAHabitat(string habitatName)
+        {
+            if (!HabitatIsExist(habitatName)) { throw new HabitatNotExistException(); }
+            for (int index = habitatList.Count-1; index >= 0; index--)
+            {
+                if (habitatList[index].HabitatName == habitatName)
+                {
+                    if (habitatList[index].AnimalList.Count > 0)
+                    {
+                        throw new NotEmptyHabitatException();
+                    }
+                    habitatList.RemoveAt(index);
+                }
+            }
+        }
         public List<Habitat> GetHabitats()
         {
             return habitatList;
         }
-        public bool HabitatIsExist(string habitatName, List<Habitat> habitats)
+        public bool HabitatIsExist(string habitatName)
         {
-            foreach (Habitat habitat in habitats)
+            foreach (Habitat habitat in habitatList)
             {
                 if (habitat.HabitatName == habitatName) {return true;}
             }

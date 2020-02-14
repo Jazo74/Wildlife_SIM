@@ -7,14 +7,14 @@ using codecool.miskolc.zoltan_jarmy.sanctuary.core;
 
 namespace codecool.miskolc.zoltan_jarmy.sanctuary.ui
 {
-    public class interactivity
+    public class UI
     {
         Simulation life;
-        public interactivity()
+        public UI()
         {
             life = new Simulation();
         }
-        public void UI(Program p)
+        public void Start(Program p)
         {
             bool loop = true;
             while (loop)
@@ -30,7 +30,7 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.ui
             WriteLineBlue("Welcome to SANCTUARY, the last hope of the animals! (please choose a number)");
             Console.WriteLine();
             Console.Write("Hibernation status    ");
-            if (File.Exists("myxml.xml") == false)
+            if (File.Exists("sanctuary.xml") == false)
             {
                 WriteLineRed("Not available");
             }
@@ -39,14 +39,14 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.ui
                 WriteLineGreen("Available");
             }
             Console.WriteLine();
-            Console.WriteLine("(0) Managing Habitat zones");
-            Console.WriteLine("(1) Managing life forms");
-            Console.WriteLine("(2) Starting / Resuming the normal life");
-            Console.WriteLine("(3) Hibernating process");
-            Console.WriteLine("(4) Awakening process");
-            Console.WriteLine("(5) Statistics panel");
-            Console.WriteLine("(6) About US");
-            Console.WriteLine("(7) Exit Program");
+            Console.WriteLine("(1) Managing Habitat zones");
+            Console.WriteLine("(2) Managing life forms");
+            Console.WriteLine("(3) Starting / Resuming the normal life");
+            Console.WriteLine("(4) Hibernating process");
+            Console.WriteLine("(5) Awakening process");
+            Console.WriteLine("(6) Statistics panel");
+            Console.WriteLine("(7) About US");
+            Console.WriteLine("(0) Exit Program");
             Console.WriteLine();
         }
         public void SubMenuHabitat()
@@ -54,11 +54,11 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.ui
             Console.Clear();
             WriteLineBlue("Habitat panel (please choose a number)");
             Console.WriteLine();
-            Console.WriteLine("(0) Building a new Habitat zone");
-            Console.WriteLine("(1) Information about the current zones");
-            Console.WriteLine("(2) Recalibrating the zones");
-            Console.WriteLine("(3) Demolish a zone");
-            Console.WriteLine("(4) Back to the main panel");
+            Console.WriteLine("(1) Building a new Habitat zone");
+            Console.WriteLine("(2) Information about the current zones");
+            Console.WriteLine("(3) Recalibrating the zones");
+            Console.WriteLine("(4) Demolish a zone");
+            Console.WriteLine("(0) Back to the main panel");
             Console.WriteLine();
         }
         public void SubMenuAnimal()
@@ -66,12 +66,12 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.ui
             Console.Clear();
             WriteLineBlue("Animals panel (please choose a number)");
             Console.WriteLine();
-            Console.WriteLine("(0) Arriving a new animal");
-            Console.WriteLine("(1) Informations about an animal");
-            Console.WriteLine("(2) Informations about all animal");
-            Console.WriteLine("(3) Update the informations of the animal");
-            Console.WriteLine("(4) Relocating an animal");
-            Console.WriteLine("(5) Back to the main panel");
+            Console.WriteLine("(1) Arriving a new animal");
+            Console.WriteLine("(2) Informations about an animal");
+            Console.WriteLine("(3) Informations about all animal");
+            Console.WriteLine("(4) Update the informations of the animal");
+            Console.WriteLine("(5) Relocating an animal");
+            Console.WriteLine("(0) Back to the main panel");
             Console.WriteLine();
         }
         public void SubMenuStatistics()
@@ -79,20 +79,19 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.ui
             Console.Clear();
             WriteLineBlue("Statistics panel (please choose a number)");
             Console.WriteLine();
-            Console.WriteLine("(0) Information about the Habitats");
-            Console.WriteLine("(1) Information about an animals");
-            Console.WriteLine("(2) Back to the main panel");
+            Console.WriteLine("(1) Information about the Habitats");
+            Console.WriteLine("(2) Information about an animals");
+            Console.WriteLine("(0) Back to the main panel");
             Console.WriteLine();
         }
 
         public bool Choice(Program p, Simulation life)
         {
             string choice;
-            choice = Console.ReadLine();
-            Console.WriteLine();
+            choice = InputAny("Choose an option: ");
             switch (choice)
             {
-                case "0":
+                case "1":
                     bool loopH = true;
                     while (loopH)
                     {
@@ -100,7 +99,7 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.ui
                         loopH = SubChoiceHabitat(p);
                     }
                     break;
-                case "1":
+                case "2":
                     bool loopA = true;
                     while (loopA)
                     {
@@ -108,15 +107,15 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.ui
                         loopA = SubChoiceAnimal(p);
                     }
                     break;
-                case "2":
+                case "3":
                     life.LifeCycle(p);
                     break;
-                case "3":
+                case "4":
                     p.arkOne.SerializeMyList();
                     WriteLineGreen("The Serialization has completed.");
                     Thread.Sleep(1000);
                     break;
-                case "4":
+                case "5":
                     try
                     {
                         p.arkOne.DeSerializeMyList();
@@ -128,7 +127,7 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.ui
                     }
                     Thread.Sleep(1000);
                     break;
-                case "5":
+                case "6":
                     bool loopS = true;
                     while (loopS)
                     {
@@ -136,9 +135,9 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.ui
                         loopS = SubChoiceStatistics(p);
                     }
                     break;
-                case "6":
-                    return true;
                 case "7":
+                    return true;
+                case "0":
                     WriteLineGreen("Thank you for using our service! Have a nice day citizen!");
                     return false;
                 default:
@@ -150,112 +149,79 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.ui
         public bool SubChoiceHabitat(Program p)
         {
             string choice;
-            choice = Console.ReadLine();
+            choice = InputAny("Choose an option: ");
             Console.WriteLine();
             switch (choice)
             {
-                case "0": // Creating new habitat
-                    string newName = InputAny("The name of the new Habitat?: ");
-                    if (!p.arkOne.HabitatIsExist(newName, p.arkOne.GetHabitats()))
+                case "1": // Creating new habitat
+                    try
                     {
-                        WriteLineRed("This habitat is already exist!");
-                    }
-                    else
-                    {
+                        string newName = InputAny("The name of the new Habitat?: ");
+                        if (p.arkOne.HabitatIsExist(newName))
+                        {
+                            throw new HabitatIsExistException();
+                        }
                         p.arkOne.CreatingAHabitat(newName);
                         WriteLineGreen("Tha habitat has been built.");
                     }
+                    catch (HabitatIsExistException)
+                    {
+                        WriteLineRed("This Habitat is already exist");
+                    }
                     Thread.Sleep(2000);
                     break;
-                case "1": // Displaying Habitats
+                case "2": // Displaying Habitats
                     foreach (Habitat habitat in p.arkOne.GetHabitats())
                     {
-                        Console.Write(habitat.HabitatName + ": ");
+                        WriteBlue(habitat.HabitatName + ": ");
                         Console.WriteLine(habitat.AnimalList.Count.ToString() + " animals live in this Habitat.");
                     }
                     Console.WriteLine("Press any key to continue...");
                     Console.ReadLine();
                     break;
-                case "2": // Renaming a Habitat
-                    bool found1 = false;
-                    string zoneName1 = InputAny("The name of the Habitat?: ");
-                    newName = InputAny("What will be the new name of the Habitat?: ");
-                    foreach (Habitat zone in p.arkOne.GetHabitats())
+                case "3": // Renaming a Habitat
+                    try
                     {
-                        if (zone.HabitatName == zoneName1)
+                        string habitatName = InputAny("The name of the Habitat?: ");
+                        string newName = InputAny("The new name of the Habitat?: ");
+                        if (p.arkOne.HabitatIsExist(newName)) { throw new HabitatIsExistException(); }
+                        List<Habitat> habitats = p.arkOne.GetHabitats();
+                        foreach (Habitat habitat in habitats)
                         {
-                            if (zone.AnimalList.Count > 0)
+                            if (!p.arkOne.HabitatIsExist(newName))
                             {
-                                Console.WriteLine("You can't remodel this Habitat, because " + zone.AnimalList.Count.ToString() + " animals live theres");
-                                found1 = true;
-                                break;
-                            }
-                            else
-                            {
-                                foreach (Habitat zone2 in p.arkOne.GetHabitats())
-                                {
-                                    if (zone2.HabitatName == newName)
-                                    {
-                                        Console.Write("Two zones with same name is not allowed!");
-                                        Thread.Sleep(2000);
-                                        found1 = true;
-                                        break;
-                                    }
-                                }
-                                zone.HabitatName = newName;
-                                found1 = true;
+                                habitat.SetHabitatName(newName);
+                                WriteLineGreen("The Habitat has been renamed.");
                             }
                         }
-                        
                     }
-                    if (found1 == false)
+                    catch (HabitatNotExistException)
                     {
-                        Console.WriteLine("There is no habitat with this Name.");
-                        Thread.Sleep(2000);
+                        WriteLineRed("This Habitat is not exist");
                     }
+                    catch (HabitatIsExistException)
+                    {
+                        WriteLineRed("This Habitat is already exist");
+                    }
+                    Thread.Sleep(2000);
                     break;
-                case "3": // Deleting a Habitat
-                    bool killCommand = false;
-                    bool found = false;
-                    string zoneName2 = InputAny("The name of the Habitat, you want the demolish ?: ");
-                    foreach (Habitat zone in p.arkOne.GetHabitats())
+                case "4": // Deleting a Habitat
+                    try
                     {
-                        if (zone.HabitatName == zoneName2)
-                        {
-                            if (zone.AnimalList.Count > 0)
-                            {
-                                Console.WriteLine("You can't demolish this Habitat, because " + Convert.ToString(zone.AnimalList.Count) +" animal(s) live(s) theres");
-                                found = true;
-                                Thread.Sleep(2000);
-                                break;
-                            }
-                            else
-                            {
-                                found = true;
-                                killCommand = true;
-                            }
-                        }
+                        p.arkOne.RemovingAHabitat(InputAny("The name of the habitat?: "));
+                        WriteLineGreen("The Habitat has been demolished.");
                     }
-                    if (!found)
+                    catch (HabitatNotExistException)
                     {
-                        Console.WriteLine("There in no Habitat with this name!");
-                        Thread.Sleep(2000);
-                        break;
+                        WriteLineRed("This Habitat is not exist");
                     }
-                    if (killCommand == true)
+                    catch (NotEmptyHabitatException)
                     {
-                        for (int index = p.arkOne.GetHabitats().Count - 1;  index >= 0; index--)
-                        {
-                            if (p.arkOne.GetHabitats()[index].HabitatName == zoneName2)
-                            {
-                                Console.WriteLine("The " + p.arkOne.GetHabitats()[index].HabitatName + " zone has removed");
-                                p.arkOne.GetHabitats().RemoveAt(index);
-                                Thread.Sleep(2000);
-                            }
-                        }
+                        WriteLineRed("You can not demolish because animals live there");
                     }
+                    Thread.Sleep(1000);
                     break;
-                case "4":
+                case "0":
                     return false;
                 default:
                     WriteLineRed("Wrong option!");
@@ -266,16 +232,16 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.ui
         public bool SubChoiceAnimal(Program p)
         {
             string choice;
-            choice = Console.ReadLine();
+            choice = InputAny("Choose an option: ");
             Console.WriteLine();
             switch (choice)
             {
-                case "0": //Adding new animal
+                case "1": //Adding new animal
                     string speciesName;
                     string habitatName;
                     string type;
                     speciesName = InputAny("What is the species?: ");
-                    habitatName = InputAny("What is the optimal habitat zone ?: ");
+                    habitatName = InputAny("What is the optimal habitat zone?: ");
                     while (true)
                     {
                         type = InputAny("What kind of animal is this? (herbivore, carnivore, omnivore): ");
@@ -294,7 +260,7 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.ui
                         Thread.Sleep(2000);
                     }
                     break;
-                case "1": //Listing an animal
+                case "2": //Listing an animal
                     Animal animaL;
                     try
                     {
@@ -314,7 +280,7 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.ui
                     InputAny("Press any key to continue...");
                     break;
 
-                case "2": //Listing all animal
+                case "3": //Listing all animal
                     foreach (Habitat habitat in p.arkOne.GetHabitats())
                     {
                         WriteLineBlue(habitat.HabitatName);
@@ -332,7 +298,7 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.ui
                     Console.WriteLine("Press any key to continue...");
                     Console.ReadKey();
                     break;
-                case "3": //Update an animal
+                case "4": //Update an animal
                     try
                     {
                         animaL = p.arkOne.FoundAnimal(InputAny("What is the ID of the animal?: "));
@@ -359,7 +325,7 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.ui
                     }
                     Thread.Sleep(2000);
                     break;
-                case "4": //Removing an animal
+                case "5": //Removing an animal
                     try
                     {
                         p.arkOne.RelocateAnimal(InputAny("What is the ID of the animal you want to relocate?: "));
@@ -371,7 +337,7 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.ui
                     }
                     Thread.Sleep(2000);
                     break;
-                case "5":
+                case "0":
                     return false;
                 default:
                     WriteLineRed("Wrong option!");
@@ -382,11 +348,11 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.ui
         public bool SubChoiceStatistics(Program p)
         {
             string choice;
-            choice = Console.ReadLine();
+            choice = InputAny("Choose an option: ");
             Console.WriteLine();
             switch (choice)
             {
-                case "0":
+                case "1":
                     foreach (Habitat habitat in p.arkOne.GetHabitats())
                     {
                         habitat.SumAnimals();
@@ -402,7 +368,7 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.ui
                     Console.WriteLine("Press any key to continue...");
                     Console.ReadLine();
                     break;
-                case "1":
+                case "2":
                     foreach (Habitat habitat in p.arkOne.GetHabitats())
                     {
                         habitat.SumAnimals();
@@ -416,7 +382,7 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.ui
                     Console.WriteLine("Press any key to continue...");
                     Console.ReadLine();
                     break;
-                case "2":
+                case "0":
                     return false;
                 default:
                     WriteLineRed("Wrong option!");
