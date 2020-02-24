@@ -7,17 +7,15 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
 
         public WaterFilter()
         {
-            State = "Running";
+            //State = "Running";
             Capacity = 3300;
             Load = 0;
-            CriticalAccident = false;
-            Accident = false;
-            MaintenanceCounter = Capacity * 5;
+            //CriticalAccident = false;
+            //Accident = false;
+            //MaintenanceCounter = Capacity * 5;
         }
 
-        
-
-        public override void Maintenance()
+        /*public override void Maintenance()
         {
             MaintenanceCounter = Capacity * 2;
         }
@@ -34,6 +32,6 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
                 MaintenanceCounter += 5;
             }
 
-        }
+        }*/
     }
 }
