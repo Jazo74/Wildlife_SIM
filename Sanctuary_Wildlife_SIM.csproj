@@ -12,9 +12,10 @@
     <Folder Include="Core\Exceptions\" />
     <Folder Include="Core\animals\" />
     <Folder Include="Core\habitats\" />
+    <Folder Include="UI\" />
   </ItemGroup>
   <ItemGroup>
-    <None Update="Readme.md">
+    <None Update="UI\Readme.md">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

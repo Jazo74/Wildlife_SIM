@@ -9,10 +9,10 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.ui
 {
     public class UI
     {
-        Simulation life;
-        public UI()
+        ISimulation life;
+        public UI(ConsoleSimulation sim)
         {
-            life = new Simulation();
+            life = sim;
         }
         public void Start(Program p)
         {
@@ -86,7 +86,7 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.ui
             Console.WriteLine();
         }
 
-        public bool Choice(Program p, Simulation life)
+        public bool Choice(Program p, ISimulation life)
         {
             string choice;
             choice = InputAny("Choose an option: ");
@@ -276,7 +276,7 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.ui
                     Animal animaL;
                     try
                     {
-                        animaL = p.arkOne.FoundAnimal(InputAny("What is the ID of the animal?: "));
+                        animaL = p.arkOne.FindAnimal(InputAny("What is the ID of the animal?: "));
                         Console.WriteLine("The animal ID is: " + animaL.OwnName);
                         Console.WriteLine("The animal species is: " + animaL.SpeciesName);
                         Console.WriteLine("Required energy: " + animaL.ReqEnergyUnit);
@@ -313,7 +313,7 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.ui
                 case "4": //Update an animal
                     try
                     {
-                        animaL = p.arkOne.FoundAnimal(InputAny("What is the ID of the animal?: "));
+                        animaL = p.arkOne.FindAnimal(InputAny("What is the ID of the animal?: "));
                         Console.WriteLine("The animal ID is: " + animaL.OwnName);
                         Console.WriteLine("The animal species is: " + animaL.SpeciesName);
                         Console.WriteLine("Required energy: " + animaL.ReqEnergyUnit);

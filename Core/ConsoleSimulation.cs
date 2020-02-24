@@ -5,12 +5,10 @@ using static codecool.miskolc.zoltan_jarmy.sanctuary.ui.Toolbox;
 
 namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
 {
-    public class Simulation
+    public class ConsoleSimulation : ISimulation
     {
-        public Simulation()
-        {
-        }
-        public void LifeCycle(Program p, int cycleTime) // Running the simulation
+        /// Running the simulation
+        public void LifeCycle(Program p, int cycleTime) 
         {
             while (!Console.KeyAvailable)
             {
@@ -24,9 +22,10 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
                 Thread.Sleep(cycleTime);
             }
         }
-        void ShowAnimals(Program p) // Showing the informations of the population by zones
+        /// Showing the informations of the population by zones
+        private void ShowAnimals(Program p)
         {
-            WriteLineBlue("--------------------------------------------------------------------------------------------------------------");
+            WriteLineBlue("----------------------------------------------------------------------------------------------");
             WriteLineBlue("Current Population:");
 
             foreach (Habitat habs in p.arkOne.GetHabitats())
@@ -41,9 +40,10 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
                 Console.WriteLine();
             }
         }
-        void ShowRequiredResources(Program p) //Showing the required resources by zones
+        ///Showing the required resources by zones
+        private void ShowRequiredResources(Program p) 
         {
-            WriteLineBlue("--------------------------------------------------------------------------------------------------------------");
+            WriteLineBlue("---------------------------------------------------------------------------------------------");
             WriteLineBlue("Required Resources:");
             WriteLineBlue("Zone                  Energy(kW)   Heat(kJ)   Food(unit)   Water(m3)   Oxigen(m3)");
             foreach (Habitat member in p.arkOne.GetHabitats())
@@ -56,16 +56,17 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
                 Console.WriteLine(member.SumReqOxigen.ToString().PadLeft(13));
             }
         }
-        void ShowResourceGenerators(Program p) // Showing the current state of the supporting facilities
+        /// Showing the current state of the supporting facilities
+        private void ShowResourceGenerators(Program p) 
         {
-            WriteLineBlue("--------------------------------------------------------------------------------------------------------------");
+            WriteLineBlue("---------------------------------------------------------------------------------------------");
             WriteLineBlue("Running Facilities:");
             Console.WriteLine("Heatcollectors".PadRight(19) + p.arkOne.HeatCollectors.Count + " block, Load: " + p.arkOne.HeatLoad + " %");
             Console.WriteLine("Solarpanels".PadRight(19) + p.arkOne.SolarPanels.Count + " block, Load: " + p.arkOne.EnergyLoad + " %");
             Console.WriteLine("Foodreplicators".PadRight(19) + p.arkOne.FoodReplicators.Count + " block, Load: " + p.arkOne.FoodLoad + " %");
             Console.WriteLine("Oxigen generators".PadRight(19) + p.arkOne.OxigenGenerators.Count + " block, Load: " + p.arkOne.OxigenLoad + " %");
             Console.WriteLine("Water filters: ".PadRight(19) + p.arkOne.WaterFilters.Count + " block, Load: " + p.arkOne.WaterLoad + " %");
-            WriteLineBlue("--------------------------------------------------------------------------------------------------------------");
+            WriteLineBlue("---------------------------------------------------------------------------------------------");
             WriteLineBlue("Messages:");
         }
     }

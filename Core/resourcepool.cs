@@ -63,14 +63,14 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
             AllFoodReq = 0;
             AllOxigenReq = 0;
             AllWaterReq = 0;
-            foreach (Habitat member in habitatList)
+            foreach (Habitat habitat in habitatList)
             {
-                member.GatherAllReq();
-                AllHeatReq += member.SumReqHeat;
-                AllEnergyReq += member.SumReqEnergy;
-                AllFoodReq += member.SumReqFood;
-                AllOxigenReq += member.SumReqOxigen;
-                AllWaterReq += member.SumReqWater;
+                habitat.GatherAllReq();
+                AllHeatReq += habitat.SumReqHeat;
+                AllEnergyReq += habitat.SumReqEnergy;
+                AllFoodReq += habitat.SumReqFood;
+                AllOxigenReq += habitat.SumReqOxigen;
+                AllWaterReq += habitat.SumReqWater;
             }
         }
         private void SumAllCapacity() // Sum all the current capacity of the facilities
@@ -80,25 +80,25 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
             AllFoodCapacity = 0;
             AllOxigenCapacity = 0;
             AllWaterCapacity = 0;
-            foreach (HeatCollector member in HeatCollectors)
+            foreach (HeatCollector heatCollector in HeatCollectors)
             {
-                AllHeatCapacity += member.Capacity;
+                AllHeatCapacity += heatCollector.Capacity;
             }
-            foreach (SolarPanel member in SolarPanels)
+            foreach (SolarPanel solarPanel in SolarPanels)
             {
-                AllEnergyCapacity += member.Capacity;
+                AllEnergyCapacity += solarPanel.Capacity;
             }
-            foreach (FoodReplicator member in FoodReplicators)
+            foreach (FoodReplicator foodReplicator in FoodReplicators)
             {
-                AllFoodCapacity += member.Capacity;
+                AllFoodCapacity += foodReplicator.Capacity;
             }
-            foreach (OxigenGenerator member in OxigenGenerators)
+            foreach (OxigenGenerator oxigenGenerator in OxigenGenerators)
             {
-                AllOxigenCapacity += member.Capacity;
+                AllOxigenCapacity += oxigenGenerator.Capacity;
             }
-            foreach (WaterFilter member in WaterFilters)
+            foreach (WaterFilter waterFilter in WaterFilters)
             {
-                AllWaterCapacity += member.Capacity;
+                AllWaterCapacity += waterFilter.Capacity;
             }
         }
         private void CheckBalance() //Checking the input/output balance
@@ -183,7 +183,7 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
                 }
             }
         }
-        public Animal FoundAnimal(String OwnName) // Checking if an animal exist in the system
+        public Animal FindAnimal(String OwnName) // Checking if an animal exist in the system
         {
             foreach (Habitat habitat in habitatList)
             {

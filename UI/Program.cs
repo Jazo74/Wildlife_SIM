@@ -6,7 +6,7 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
 {
     public class Program
     {
-        public Simulation life;
+        //public Monitor life;
         public ResourcePool arkOne;
 
         public Program()
@@ -16,7 +16,8 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.core
         static void Main(string[] args)
         {
             Program p = new Program();
-            UI ui = new UI();
+            ConsoleSimulation cSim = new ConsoleSimulation();
+            UI ui = new UI(cSim);
             ui.Start(p);
         }
     }
