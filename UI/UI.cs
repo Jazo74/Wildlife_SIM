@@ -57,7 +57,7 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.ui
             Console.WriteLine();
             Console.WriteLine("(1) Building a new Habitat zone");
             Console.WriteLine("(2) Information about the current zones");
-            Console.WriteLine("(3) Recalibrating the zones");
+            Console.WriteLine("(3) Renaming a zone");
             Console.WriteLine("(4) Demolish a zone");
             Console.WriteLine("(0) Back to the main panel");
             Console.WriteLine();
@@ -70,8 +70,8 @@ namespace codecool.miskolc.zoltan_jarmy.sanctuary.ui
             Console.WriteLine("(1) New animals has arrived");
             Console.WriteLine("(2) Informations about an animal");
             Console.WriteLine("(3) Informations about all animal");
-            Console.WriteLine("(4) Update the informations of the animal");
-            Console.WriteLine("(5) Relocating an animal");
+            Console.WriteLine("(4) Update the informations of an animal");
+            Console.WriteLine("(5) Removing an animal");
             Console.WriteLine("(0) Back to the main panel");
             Console.WriteLine();
         }
